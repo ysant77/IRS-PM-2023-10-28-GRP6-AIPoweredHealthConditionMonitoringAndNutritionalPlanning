@@ -1,4 +1,5 @@
 <template>
+  <title>{{ chatTitle }}</title>
   <v-container>
     <template v-for="(msg, i) in msgList" :key="i">
       <div
@@ -6,79 +7,120 @@
         :class="msg.sender == 'bot' ? 'justify-start' : 'justify-end'"
         :style="msgStyles[msg.sender]"
       >
-        <v-card
-          w-auto
-          :text="msg.text"
-          :variant="msg.sender == 'user' ? 'tonal' : 'default'"
-          elevation="2"
-        ></v-card>
+        <MsgCard
+          :msg="msg"
+          @sendMsg="
+            (msg) => {
+              sendMsg(msg);
+            }
+          "
+        />
       </div>
     </template>
-
-    <v-btn @click="bindBtn">Btn</v-btn>
   </v-container>
 </template>
 
 <script setup>
+import MsgCard from "@/components/MsgCard.vue";
 </script>
 
 <script>
 export default {
+  props: ["cid", "save"],
   data: () => ({
-    msgList: [
-      {
-        sender: "bot",
-        type: 0,
-        text: "Sample message 1.",
-      },
-      {
-        sender: "user",
-        type: 0,
-        text: "Sample message 2.",
-      },
-      {
-        sender: "bot",
-        type: 0,
-        text: "Et accusamus provident in eius velit aut quod saepe qui quia consequatur. ",
-      },
-      {
-        sender: "user",
-        type: 0,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      },
-    ],
+    chatTitle: "chat title",
+    msgList: null,
+
     msgStyles: {
       bot: {
-        "margin-right": "3%",
+        "margin-right": "5%",
       },
       user: {
-        "margin-left": "3%",
+        "margin-left": "5%",
       },
     },
   }),
 
   methods: {
-    createMsg(text) {
+    // add new msg to list
+    createMsg(text, sender) {
       this.msgList.push({
-        sender: "user",
+        sender: sender,
         text: text,
       });
       this.scrollDown();
     },
 
-    bindBtn() {
-      this.createMsg('Another msg.')
+    // scroll to bottom
+    scrollDown() {
+      var el = document.getElementsByClassName("chat-line");
+      el[el.length - 1].scrollIntoView();
     },
 
-    scrollDown() {
-      var el = document.getElementsByClassName('chat-line');
-      el[el.length-1].scrollIntoView();
+    /* Need to stop user from sending until it's done. */
+    sendMsg(text) {
+      this.createMsg(text, "user");
+      var ret_text = this.getReply(text);
+      this.createMsg(ret_text, "bot");
+    },
+
+    /* Edit this for API. */
+    getReply(text) {
+      return 'Reply to message "' + text + '"';
+    },
+
+    saveChat() {
+      const cid = Date.now();
+      const save = {
+        chatTitle: this.chatTitle,
+        msgList: this.msgList,
+      };
+      console.log("Chat saved" + this.chatTitle);
+    },
+
+    loadChat(cid) {
+      this.msgList = [
+        {
+          sender: "bot",
+          text: "Hi! This is prompt message.",
+          options: [
+            { text: "View diagnosis.", value: "View diagnosis of..." },
+            { text: "Nutrition planning.", value: "Nutrition plans." },
+          ],
+        },
+      ];
+    },
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+
+    })
+  },
+
+  // hook, when page is loaded
+  mounted() {
+    if (this.cid) {
+      this.loadChat(this.cid);
+      this.chatTitle = "Chat";
+    } else {
+      this.msgList = [
+        {
+          sender: "bot",
+          text: "Hi! This is prompt message.",
+          options: [
+            { text: "View diagnosis.", value: "View diagnosis of..." },
+            { text: "Nutrition planning.", value: "Nutrition plans." },
+          ],
+        },
+      ];
+      this.chatTitle = "New chat";
     }
   },
 
-  // hook
-  mounted() {
-    this.createMsg('Msg created on load.');
+  // to receive signal that calls the method
+  watch: {
+    save: "saveChat",
   },
 };
 </script>

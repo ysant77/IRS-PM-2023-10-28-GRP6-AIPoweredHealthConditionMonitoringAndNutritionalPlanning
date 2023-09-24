@@ -5,76 +5,89 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
 
-      <v-app-bar-title>Chat</v-app-bar-title>
+      <v-app-bar-title>Health ChatBot</v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn icon="mdi-content-save">
-          <v-icon></v-icon>
-          <v-tooltip activator="parent"> Save chat </v-tooltip>
+        <v-btn
+          prepend-icon="mdi-content-save"
+          variant="flat"
+          @click.stop="saveChat"
+        >
+          Save Chat
+          <!-- <v-tooltip activator="parent"> Save chat </v-tooltip> -->
+        </v-btn>
+        <v-btn
+          prepend-icon="mdi-plus-circle"
+          variant="elevated"
+          @click.stop="newChat"
+        >
+          New Chat
         </v-btn>
       </template>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" elevation="3">
       <v-list>
-        <v-list :items="items"></v-list>
+        <v-list-item
+          link
+          v-for="item in historyList"
+          :key="item.title"
+          :title="item.title"
+          :to="{ name: 'ChatHistory', params: { cid: item.tstamp } }"
+        >
+          <v-tooltip activator="parent"> TIME </v-tooltip>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
-    <!-- <v-app-bar height="100%" location="bottom" elevation="8">
-      <v-container>
-        <v-textarea
-          name="input-7-1"
-          variant="outlined"
-          rows="1"
-          auto-grow
-          placeholder="Input..."
-        ></v-textarea>
-      </v-container>
-    </v-app-bar> -->
 
     <v-main
       class="d-flex align-center justify-center"
       style="min-height: 300px"
     >
-      <router-view></router-view>
+      <router-view :save="save"></router-view>
     </v-main>
   </v-layout>
 </template>
 
-
-<!-- <script setup>
-  var drawer = null;
-  var items = [
-      {
-        title: "Foo",
-        value: "foo",
-      },
-      {
-        title: "Bar",
-        value: "bar",
-      },
-    ];
-</script> -->
-
 <script>
 export default {
   data: () => ({
+    save: 0,
     drawer: null,
-    items: [
-      {
-        title: "Foo",
-        value: "foo",
-      },
-      {
-        title: "Bar",
-        value: "bar",
-      },
-    ],
+
+    historyList: null,
   }),
 
-  created() {
-    console.log('114514!');
+  methods: {
+    // Call Methods of Chat view. (Other ways do not work.)
+    saveChat() {
+      this.save++;
+    },
+
+    newChat() {
+      this.$route.push({name:'NewChat'});
+    },
+
+    loadHistories() {
+      this.historyList = [
+        {
+          title: "Recent chat",
+          tstamp: 1695562257580,
+        },
+        {
+          title: "Old chat 2",
+          tstamp: 1695532257580,
+        },
+        {
+          title: "Older chat 3",
+          tstamp: 1694532257580,
+        },
+      ];
+    },
+  },
+
+  mounted() {
+    this.loadHistories();
   },
 };
 </script>
