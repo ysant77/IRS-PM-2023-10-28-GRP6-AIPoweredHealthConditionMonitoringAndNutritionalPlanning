@@ -44,7 +44,9 @@
       class="d-flex align-center justify-center"
       style="min-height: 300px"
     >
-      <router-view :save="save"></router-view>
+      <router-view v-slot="{ Component }">
+        <component ref="view" :is="Component"></component>
+      </router-view>
     </v-main>
   </v-layout>
 </template>
@@ -52,16 +54,15 @@
 <script>
 export default {
   data: () => ({
-    save: 0,
     drawer: null,
 
     historyList: null,
   }),
 
   methods: {
-    // Call Methods of Chat view. (Other ways do not work.)
+    // Call Methods of Chat view.
     saveChat() {
-      this.save++;
+      this.$refs.view.saveChat();
     },
 
     newChat() {

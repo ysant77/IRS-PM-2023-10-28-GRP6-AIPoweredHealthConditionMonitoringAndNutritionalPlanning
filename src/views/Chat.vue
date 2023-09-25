@@ -1,7 +1,7 @@
 <template>
   <title>{{ chatTitle }}</title>
   <v-container>
-    <template v-for="(msg, i) in msgList" :key="i">
+    <div v-for="(msg, i) in msgList" :key="i">
       <div
         class="chat-line pa-2 d-flex align-center"
         :class="msg.sender == 'bot' ? 'justify-start' : 'justify-end'"
@@ -16,17 +16,18 @@
           "
         />
       </div>
-    </template>
+    </div>
   </v-container>
 </template>
 
-<script setup>
-import MsgCard from "@/components/MsgCard.vue";
-</script>
-
 <script>
+import MsgCard from "@/components/MsgCard.vue";
+
 export default {
-  props: ["cid", "save"],
+  components: {
+    MsgCard,
+  },
+  props: ["cid"],
   data: () => ({
     chatTitle: "chat title",
     msgList: null,
@@ -82,20 +83,22 @@ export default {
       this.msgList = [
         {
           sender: "bot",
-          text: "Hi! This is prompt message.",
+          text: "Hi! This is prompt message for a saved chat.",
           options: [
             { text: "View diagnosis.", value: "View diagnosis of..." },
             { text: "Nutrition planning.", value: "Nutrition plans." },
           ],
         },
+        {
+          sender: "user",
+          text: "Sample.",
+        },
       ];
     },
   },
 
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-
-    })
+  beforeRouteUpdate(to, from) {
+    this.loadChat(to.params.cid);
   },
 
   // hook, when page is loaded
