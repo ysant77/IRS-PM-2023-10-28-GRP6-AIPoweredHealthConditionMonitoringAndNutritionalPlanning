@@ -13,7 +13,7 @@
           class="text-none text-left"
           v-for="(opt, i) in msg.options"
           :key="i"
-          @click.stop="$emit('sendMsg',opt.value)"
+          @click.stop="$emit('sendMsg', opt.value)"
         >
           {{ opt.text }}
         </v-btn>

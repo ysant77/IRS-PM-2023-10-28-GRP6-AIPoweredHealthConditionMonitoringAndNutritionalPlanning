@@ -79,51 +79,51 @@ export default {
       console.log("Chat saved" + this.chatTitle);
     },
 
+    loadTitle(cid) {
+      this.chatTitle = (cid==='new')? 'New Chat' : 'Chat'+cid;
+    },
+
     loadChat(cid) {
-      this.msgList = [
-        {
-          sender: "bot",
-          text: "Hi! This is prompt message for a saved chat.",
-          options: [
-            { text: "View diagnosis.", value: "View diagnosis of..." },
-            { text: "Nutrition planning.", value: "Nutrition plans." },
-          ],
-        },
-        {
-          sender: "user",
-          text: "Sample.",
-        },
-      ];
+      if (cid === "new") {
+        this.msgList = [
+          {
+            sender: "bot",
+            text: "Hi! This is prompt message.",
+            options: [
+              { text: "View diagnosis.", value: "View diagnosis of..." },
+              { text: "Nutrition planning.", value: "Nutrition plans." },
+            ],
+          },
+        ];
+      } else {
+        this.msgList = [
+          {
+            sender: "bot",
+            text: "Hi! This is prompt message for a saved chat. " + cid,
+            options: [
+              { text: "View diagnosis.", value: "View diagnosis of..." },
+              { text: "Nutrition planning.", value: "Nutrition plans." },
+            ],
+          },
+          {
+            sender: "user",
+            text: "Sample.",
+          },
+        ];
+      }
     },
   },
 
   beforeRouteUpdate(to, from) {
+    this.loadTitle(to.params.cid);
     this.loadChat(to.params.cid);
   },
 
-  // hook, when page is loaded
-  mounted() {
-    if (this.cid) {
-      this.loadChat(this.cid);
-      this.chatTitle = "Chat";
-    } else {
-      this.msgList = [
-        {
-          sender: "bot",
-          text: "Hi! This is prompt message.",
-          options: [
-            { text: "View diagnosis.", value: "View diagnosis of..." },
-            { text: "Nutrition planning.", value: "Nutrition plans." },
-          ],
-        },
-      ];
-      this.chatTitle = "New chat";
-    }
-  },
-
-  // to receive signal that calls the method
-  watch: {
-    save: "saveChat",
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.loadTitle(to.params.cid);
+      vm.loadChat(to.params.cid);
+    });
   },
 };
 </script>

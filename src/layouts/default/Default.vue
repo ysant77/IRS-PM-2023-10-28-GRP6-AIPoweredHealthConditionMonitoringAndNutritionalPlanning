@@ -26,14 +26,14 @@
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" elevation="3">
+    <v-navigation-drawer width="350" v-model="drawer" elevation="3">
       <v-list>
         <v-list-item
           link
           v-for="item in historyList"
           :key="item.title"
           :title="item.title"
-          :to="{ name: 'ChatHistory', params: { cid: item.tstamp } }"
+          :to="{ name: 'Chat', params: { cid: item.tstamp } }"
         >
           <v-tooltip activator="parent"> TIME </v-tooltip>
         </v-list-item>
@@ -66,7 +66,7 @@ export default {
     },
 
     newChat() {
-      this.$route.push({name:'NewChat'});
+      this.$router.push({ name: "Chat", params: { cid: 'new' } });
     },
 
     loadHistories() {
@@ -93,5 +93,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
