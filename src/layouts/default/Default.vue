@@ -1,4 +1,5 @@
 <template>
+  <VSonner position="top-center" duration="2000"></VSonner>
   <v-layout class="rounded rounded-md">
     <v-app-bar elevation="4">
       <template v-slot:prepend>
@@ -52,7 +53,13 @@
 </template>
 
 <script>
+import { VSonner, toast } from "vuetify-sonner";
+
 export default {
+  components: {
+    VSonner,
+  },
+
   data: () => ({
     drawer: null,
 
@@ -63,10 +70,15 @@ export default {
     // Call Methods of Chat view.
     saveChat() {
       this.$refs.view.saveChat();
+      toast("Chat Saved!", {
+        cardProps: {
+          color: "success",
+        },
+      });
     },
 
     newChat() {
-      this.$router.push({ name: "Chat", params: { cid: 'new' } });
+      this.$router.push({ name: "Chat", params: { cid: "new" } });
     },
 
     loadHistories() {
@@ -92,5 +104,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

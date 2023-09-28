@@ -72,7 +72,7 @@ export default {
 
     saveChat() {
       const cid = Date.now();
-      const save = {
+      const content = {
         chatTitle: this.chatTitle,
         msgList: this.msgList,
       };
