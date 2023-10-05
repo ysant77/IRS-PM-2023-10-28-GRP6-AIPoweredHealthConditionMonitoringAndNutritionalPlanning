@@ -12,6 +12,26 @@
     padding: 10px;
 }
 
+#dynamicContent {
+    background-color: #f9f9f9;  /* Slightly lighter than the chat container */
+    border: 1px solid #ddd;     /* Matches the chat container border */
+    border-radius: 5px;         /* Soft curve, consistent with overall design */
+    padding: 10px;              /* Spacing inside the content box */
+    margin: 10px 0;             /* Spacing outside the box, to separate it from adjacent messages */
+    max-width: 80%;             /* So it doesn't take up full width of chatbox */
+    display: inline-block;     /* Keeps it inline with "Bot:" label */
+}
+
+#dynamicContent label {
+    display: block;             /* Each checkbox + label on a new line */
+    margin: 5px 0;              /* Space between checkboxes */
+    cursor: pointer;            /* Hand cursor on hover, indicating clickable */
+}
+
+#dynamicContent input[type='checkbox'] {
+    margin-right: 8px;         /* Space between checkbox and its label */
+}
+
 .chat-messages {
     height: 300px;
     overflow-y: scroll;
