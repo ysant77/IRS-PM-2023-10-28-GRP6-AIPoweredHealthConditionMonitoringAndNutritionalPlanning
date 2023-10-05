@@ -1,0 +1,10 @@
+pip install spacy
+pip install fuzzywuzzy
+pip install django
+pip install channels
+pip install daphne
+pip install uvicorn
+pip install channels
+pip install whitenoise
+
+
