@@ -146,5 +146,5 @@ def perform_diagnosis(symptoms_list):
     top_diseases = get_top_diseases(
         disease_probabilities, mlb.classes_, top_n=3, threshold=0.01
     )
-
+    top_diseases = [(disease, likelihood*100) for disease, likelihood in top_diseases]
     return top_diseases
