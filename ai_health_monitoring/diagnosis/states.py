@@ -5,9 +5,10 @@ from .nlp_chatbot import extract_symptoms, get_relevant_symptoms, perform_diagno
 
 
 class BaseState:
-    def __init__(self, session, user_message):
+    def __init__(self, session, user_message, username):
         self.session = session
         self.user_message = user_message
+        self.username = username
     
     @database_sync_to_async
     def _save_session(self):

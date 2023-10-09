@@ -34,10 +34,15 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+     'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     "channels",
     "diagnosis"
 ]
@@ -51,8 +56,28 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
+     'allauth.account.middleware.AccountMiddleware',
     #"channels.middleware.BaseMiddleware"
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ALLAUTH = {
+    'SOCIALACCOUNT_ADAPTER': 'myapp.adapters.CustomSocialAccountAdapter',
+}
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_QUERY_EMAIL = True  # Query for email during OAuth signup.
+ACCOUNT_EMAIL_REQUIRED = True  # Require email during signup
+
+
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/chat/'
+
 
 ROOT_URLCONF = "ai_health_monitoring.urls"
 
@@ -94,6 +119,8 @@ CHANNEL_LAYERS = {
     },
 }
 
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -112,6 +139,18 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '593269303580-5ujsqe2r6v5agvpd1eiomkf4ehdqjbdp.apps.googleusercontent.com',
+            'secret': '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',
+        }
+    }
+}
+
+SOCIALACCOUNT_ADAPTER = 'diagnosis.adapters.CustomSocialAccountAdapter'
 
 
 # Internationalization

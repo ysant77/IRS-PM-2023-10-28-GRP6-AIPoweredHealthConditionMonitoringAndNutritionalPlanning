@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet"> <!-- New Font -->
 </head>
+
 <body>
     <div class="chat-container">
-        <div class="chat-header">Chatbot</div>
+        <div class="chat-header">
+            Chatbot
+            <!-- Maybe add a profile image here or user's name if logged in -->
+        </div>
         <div class="chat-messages" id="chatBox"></div>
         <div class="chat-input">
             <input type="text" id="userMessage" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
+            <button id="sendButton" onclick="sendMessage()">Send</button>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
-
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        document.getElementById("userMessage").addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {  // Check for Enter key (keyCode 13)
+        event.preventDefault();  // Prevent default behavior (newline)
+        document.getElementById("sendButton").click();  // Simulate Send button click
+    }
+});
+
+    </script>
 </body>
+
 </html>

@@ -16,10 +16,12 @@ django.setup()
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 import diagnosis.routing
+from channels.auth import AuthMiddlewareStack
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": URLRouter(
+
+    "websocket": AuthMiddlewareStack(URLRouter(
         diagnosis.routing.websocket_urlpatterns  # This uses the WebSocket routes defined in routing.py
-    ),
+    )),
 })
