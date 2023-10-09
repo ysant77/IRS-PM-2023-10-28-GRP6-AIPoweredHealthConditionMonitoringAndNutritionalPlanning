@@ -75,17 +75,25 @@ class ConfirmSymptomsState(BaseState):
 
 class DiagnoseState(BaseState):
     async def respond(self):
-        self.session.conversation_state = 'PostDiagnoseState'
-        await self._save_session()
-        return "Diagnosis complete. Is there anything else you'd like to know or ask?"
-
-class PostDiagnoseState(BaseState):
-    async def respond(self):
-        if "start over" in self.user_message.lower():
+        self.user_message = str(self.user_message).lower()
+        print('in diagnosis ', self.user_message)
+        if self.user_message == "yes":
+            self.session.conversation_state = 'MealPlannerState'
+            await self._save_session()
+            return "Here's a meal plan for you"
+        elif self.user_message == "no":
             self.session.conversation_state = 'GreetingState'
             await self._save_session()
-            return "Let's start over! Please enter your username."
+            return "Is there anything else you'd like to know or ask?"
         else:
-            return "Is there anything else you'd like to know or ask? (Type 'start over' to begin a new conversation)"
+            self.session.conversation_state = 'GreetingState'
+            await self._save_session()
+            return "I am sorry, I didn't understand that. Is there anything else you'd like to know or ask?"
+
+class MealPlannerState(BaseState):
+    async def respond(self):
+        self.session.conversation_state = 'GreetingState'
+        await self._save_session()
+        return "Is there anything else you'd like to know or ask?"
 
 

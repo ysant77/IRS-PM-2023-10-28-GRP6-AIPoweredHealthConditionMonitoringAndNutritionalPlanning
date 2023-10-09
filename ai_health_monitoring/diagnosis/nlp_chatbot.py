@@ -10,6 +10,7 @@ mlb = apps.get_app_config("diagnosis").mlb
 classifier = apps.get_app_config("diagnosis").classifier
 nlp = apps.get_app_config("diagnosis").nlp
 df_train = apps.get_app_config("diagnosis").dataframe
+precautions_df = apps.get_app_config("diagnosis").precautions_df
 
 def get_relevant_symptoms(user_symptoms, top_n=3):
     # Compute conditional probabilities for all symptoms given the user's symptoms.
@@ -146,5 +147,12 @@ def perform_diagnosis(symptoms_list):
     top_diseases = get_top_diseases(
         disease_probabilities, mlb.classes_, top_n=3, threshold=0.01
     )
-    top_diseases = [(disease, likelihood*100) for disease, likelihood in top_diseases]
-    return top_diseases
+    top_diseases_with_precautions = []
+    for disease, proability in top_diseases:
+        disease = disease.strip()
+        precautions = precautions_df[precautions_df["Disease"] == disease]
+        print(precautions)
+        print(precautions.columns)
+        top_diseases_with_precautions.append((disease, proability, precautions["Recommendation 1"], precautions["Recommendation 2"], precautions["Recommendation 3"], precautions["Recommendation 4"]))
+    print(top_diseases_with_precautions)
+    return top_diseases_with_precautions

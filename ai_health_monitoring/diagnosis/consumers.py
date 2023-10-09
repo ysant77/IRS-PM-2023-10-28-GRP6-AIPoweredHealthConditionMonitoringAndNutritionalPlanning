@@ -9,14 +9,14 @@ from channels.db import database_sync_to_async
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import ChatSession, ChatMessage
-from .states import GreetingState, AskSymptomsState, ConfirmSymptomsState, DiagnoseState, PostDiagnoseState
+from .states import GreetingState, AskSymptomsState, ConfirmSymptomsState, DiagnoseState, MealPlannerState
 
 STATE_MAPPING = {
     "GreetingState": GreetingState,
     "AskSymptomsState": AskSymptomsState,
     "ConfirmSymptomsState": ConfirmSymptomsState,
     "DiagnoseState": DiagnoseState,
-    "PostDiagnoseState": PostDiagnoseState
+    "MealPlannerState": MealPlannerState
 }
 
 @database_sync_to_async

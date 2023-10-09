@@ -98,7 +98,18 @@ function sendMessage() {
         }
         message = selectedOptions.join(",");
     }
-    
+
+    let radios = document.getElementsByName("askMealPlan");
+        if(radios){
+        for(let i = 0; i < radios.length; i++) {
+            if(radios[i].checked) {
+                message = radios[i].value;
+                // Clear the selection after reading
+                radios[i].checked = false;
+                break;
+            }
+        }
+    }
     chatBox.innerHTML += "<div><strong>You:</strong> " + message + "</div>";
 
     socket.send(JSON.stringify({

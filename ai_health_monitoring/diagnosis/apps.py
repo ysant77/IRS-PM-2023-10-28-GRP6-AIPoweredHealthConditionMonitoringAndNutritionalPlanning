@@ -14,6 +14,9 @@ class DiagnosisConfig(AppConfig):
         self.dataframe = pd.read_csv("{}/Training.csv".format(self.data_dir_name))
         self.dataframe = self.dataframe.drop(columns="Unnamed: 133")
         self.dataframe.columns = list(map(clean_col_name, list(self.dataframe.columns)))
+        self.precautions_df = pd.read_csv("{}/symptom_precaution.csv".format(self.data_dir_name))
+        self.precautions_df.columns = list(map(clean_col_name, list(self.precautions_df.columns)))
+        self.precautions_df = self.precautions_df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
         self.symptoms = list(self.dataframe.columns)[:-1]
         self.mlb = load("{}/onevsrest_svm_multilabel_binarizer.joblib".format(self.model_dir_name))
         self.classifier = load("{}/onevsrest_svm_classifier.joblib".format(self.model_dir_name))
