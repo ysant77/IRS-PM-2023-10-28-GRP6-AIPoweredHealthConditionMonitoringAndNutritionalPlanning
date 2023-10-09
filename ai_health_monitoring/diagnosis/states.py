@@ -76,7 +76,7 @@ class ConfirmSymptomsState(BaseState):
 class DiagnoseState(BaseState):
     async def respond(self):
         self.user_message = str(self.user_message).lower()
-        print('in diagnosis ', self.user_message)
+        
         if self.user_message == "yes":
             self.session.conversation_state = 'MealPlannerState'
             await self._save_session()

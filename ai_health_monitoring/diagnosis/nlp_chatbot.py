@@ -151,8 +151,8 @@ def perform_diagnosis(symptoms_list):
     for disease, proability in top_diseases:
         disease = disease.strip()
         precautions = precautions_df[precautions_df["Disease"] == disease]
-        print(precautions)
-        print(precautions.columns)
-        top_diseases_with_precautions.append((disease, proability, precautions["Recommendation 1"], precautions["Recommendation 2"], precautions["Recommendation 3"], precautions["Recommendation 4"]))
-    print(top_diseases_with_precautions)
+        top_diseases_with_precautions.append((disease, proability, precautions.iloc[0]["Recommendation 1"], 
+                                              precautions.iloc[0]["Recommendation 2"], precautions.iloc[0]["Recommendation 3"], 
+                                              precautions.iloc[0]["Recommendation 4"]))
+    
     return top_diseases_with_precautions

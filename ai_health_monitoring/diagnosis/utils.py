@@ -57,6 +57,8 @@ def format_diagnosis_for_display(diagnosis_list):
     html_string += """
       </tbody>
     </table>
+    <p> The above diagnosis is based on the symptoms you have provided and is not a substitute for a medical diagnosis.
+    Kindly consult a doctor for a proper diagnosis and treatment.</p>
     <p>Would you like to checkout the meal plan?</p>
     <label><input type="radio" name="askMealPlan" value="Yes"> Yes</label>
     <label><input type="radio" name="askMealPlan" value="No"> No</label>

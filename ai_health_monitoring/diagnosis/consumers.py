@@ -104,13 +104,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         response_data = {}
         # Check if a diagnosis was just given
 
-        print('BEFORE STATE MAPPING ',self.session.conversation_state)
+        #print('BEFORE STATE MAPPING ',self.session.conversation_state)
         state_cls = STATE_MAPPING.get(self.session.conversation_state)
         if state_cls:
             state_instance = state_cls(self.session, user_message)
             bot_response = await state_instance.respond()
-            print(bot_response)
-            print(self.session.conversation_state)
+            #print(bot_response)
+            #print(self.session.conversation_state)
             if isinstance(bot_response, dict) and bot_response.get("type") == "multi_select":
                 response_data = bot_response
             else:
