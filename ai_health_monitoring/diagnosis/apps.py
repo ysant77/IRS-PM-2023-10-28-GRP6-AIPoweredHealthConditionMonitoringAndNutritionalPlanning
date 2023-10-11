@@ -8,8 +8,8 @@ import spacy
 class DiagnosisConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "diagnosis"
-    data_dir_name = "/home/yatharth/AI-Driven-Personal-Health-Assistant-with-Decision-Support/data"
-    model_dir_name = "/home/yatharth/AI-Driven-Personal-Health-Assistant-with-Decision-Support/models"
+    data_dir_name = "../data"
+    model_dir_name = "../models"
     def ready(self):
         self.dataframe = pd.read_csv("{}/Training.csv".format(self.data_dir_name))
         self.dataframe = self.dataframe.drop(columns="Unnamed: 133")
