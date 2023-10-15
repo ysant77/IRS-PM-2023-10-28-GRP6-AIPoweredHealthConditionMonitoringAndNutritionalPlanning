@@ -3,8 +3,17 @@
 Using Vuetify 3 for UI.
 Using Vue Router for url routing.
 
+To start server, run these in console:
+(Require node.js and npm)
+```
+npm install
+```
 
+```
+npm run dev
+```
 
+---
 ## Project setup
 
 ```
