@@ -1,5 +1,13 @@
 # Backend
 
+## NOTICE
+**You don't have to run migration commands before starting the server.**
+**as long as the .sqlite3 file is intact.**
+
+---
+
+
+
 Create a new virtual environment:
 
 ```
@@ -31,8 +39,3 @@ Finally run the application as follows:
 ```
 daphne ai_health_monitoring.asgi:application
 ```
-
-
-clientid: 593269303580-5ujsqe2r6v5agvpd1eiomkf4ehdqjbdp.apps.googleusercontent.com
-key: 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
-
