@@ -1,0 +1,42 @@
+Disease,Check-up time,Recovery time,Recommendation 1,Recommendation 2,Recommendation 3,Recommendation 4
+(vertigo) Paroymsal  Positional Vertigo,7,Few days to weeks,Perform Epley maneuver under guidance,Avoid lying flat or tilting the head back,Sleep with head slightly raised,Avoid sudden head movements
+AIDS,60,Life-long management,Consistent use of antiretroviral therapy,Routine medical check-ups to monitor CD4 count,Practice safe sex using condoms,Avoid sharing needles or sharp instruments
+Acne,90,Variable,bath twice,avoid fatty spicy food,drink plenty of water,avoid too many products
+Alcoholic hepatitis,7,Medium-term,stop alcohol consumption,consult doctor,medication,follow up
+Allergy,7,Short-term,apply calamine,cover area with bandage,,use ice to compress itching
+Arthritis,90,Long-term Management,Manage pain and inflammation,use hot and cold therapy,try acupuncture,massage
+Bronchial Asthma,30,Long-term Management,Avoid triggers and use inhalers as prescribed,take deep breaths,get away from trigger,seek help
+Cervical spondylosis,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Chicken pox,14,10-21 days,Isolation until all blisters have dried,Use calamine lotion for itching,Avoid aspirin due to risk of Reye’s syndrome,Stay hydrated and maintain a balanced diet
+Chronic cholestasis,30,Variable; depends on cause,Avoid fatty and fried foods,Consume vitamin K to assist with blood clotting,Regular monitoring of liver function,Avoid alcohol and unnecessary medications
+Common Cold,7,Short-term,Rest and manage fever,take vapour,avoid cold food,keep fever in check
+Dengue,7,1-2 weeks,Stay hydrated with oral rehydration solutions,Rest and avoid physical exertion,Use mosquito nets and repellents,Avoid aspirin and ibuprofen; use paracetamol for fever
+Diabetes ,60,Long-term Management,have balanced diet,exercise,consult doctor,follow up
+Dimorphic hemmorhoids(piles),30,Variable; depends on severity,Increase fiber intake to ease bowel movements,Avoid prolonged sitting; take short breaks,Use over-the-counter hemorrhoid creams,Warm sitz baths for relief
+Drug Reaction,2,Variable; depends on the drug and reaction severity,Discontinue the drug immediately,Seek emergency care if having breathing difficulty,Notify healthcare provider about the reaction,Wear a medical alert tag about drug allergies
+Fungal infection,14,Several weeks,Keep the affected area clean and dry,Avoid sharing personal items like combs or towels,Use antifungal creams as prescribed,Wear loose-fitting clothing
+GERD,30,Long-term Management,avoid fatty spicy food,avoid lying down after eating,maintain healthy weight,exercise
+Gastroenteritis,3,Short-term,stop eating solid food for while,try taking small sips of water,rest,ease back into eating
+Heart attack,1,Immediate Attention,call ambulance,chew or swallow asprin,keep calm,
+hepatitis A,1,Medium-term,Consult nearest hospital,wash hands through,avoid fatty spicy food,medication
+Hepatitis B,30,Variable; can become chronic,Follow vaccination schedules,Avoid sharing needles or sharp instruments,Practice safe sex using condoms,Regular liver function tests
+Hepatitis C,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Hepatitis D,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Hepatitis E,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Hypertension ,60,Long-term Management,meditation,salt baths,reduce stress,get proper sleep
+Hyperthyroidism,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Hypoglycemia,1,Immediate Attention,Take glucose or sugar immediately,check in pulse,drink sugary drinks,consult doctor
+Hypothyroidism,60,Long-term Management,Take thyroid hormone replacement as prescribed,exercise,eat healthy,get proper sleep
+Impetigo,7,Short-term,soak affected area in warm water,use antibiotics,remove scabs with wet compressed cloth,consult doctor
+Jaundice,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Malaria,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Migraine,7,Short-term,meditation,reduce stress,use poloroid glasses in sun,consult doctor
+Osteoarthristis,30,Long-term Management,acetaminophen,consult nearest hospital,follow up,salt baths
+Paralysis (brain hemorrhage),30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Peptic ulcer diseae,14,Medium-term,avoid fatty spicy food,consume probiotic food,eliminate milk,limit alcohol
+Pneumonia,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Psoriasis,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Tuberculosis,1,Medium-term,cover mouth,consult doctor,medication,rest
+Typhoid,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen
+Urinary tract infection,7,Short-term,drink plenty of water,increase vitamin c intake,drink cranberry juice,take probiotics
+Varicose veins,30,Variable,Consult doctor,Follow prescribed medication,Maintain hygiene,Seek immediate attention if symptoms worsen

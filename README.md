@@ -1,3 +1,10 @@
 # AI Driven Personal Health Assistant with Decision Support
 
-**I already forked (I had to push to this first then fork it), so feel free to change anything in this main repo.**
+
+
+### Run project in dev mode:
+
+1. run backend (in dir /backend)
+2. run frontend (in dir /frontend)
+3. visit http://localhost:3000
+
