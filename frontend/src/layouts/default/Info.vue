@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { hostname } from "@/api/index";
+import { hostname, axios } from "@/api/index";
 import { alertToast } from "@/util.js";
 
 import { VSonner } from "vuetify-sonner";
@@ -113,16 +113,16 @@ export default {
 
     genders: ["male", "female"],
     exec_labels: {
-      1:'Little',
-      2:'1~3',
-      3:'3~5',
-      4:'6~7',
-      5:'Heavy',
+      1: "Little",
+      2: "1~3",
+      3: "3~5",
+      4: "6~7",
+      5: "Heavy",
     },
     goal_labels: {
-      1: 'Lose weight',
-      2: 'Maintain weight',
-      3: 'Gain weight'
+      1: "Lose weight",
+      2: "Maintain weight",
+      3: "Gain weight",
     },
 
     nameRules: [
@@ -187,27 +187,36 @@ export default {
     async submit(event) {
       let res = await event;
       if (res.valid) {
-        await this.socket.send(JSON.stringify(this.data));
-      } else {
-        return;
+        await axios
+          .post("http://" + hostname + "/api/curr-user-update", {
+            data: JSON.stringify(this.data),
+          })
+          .then((res) => {
+            if (res.data.status) {
+              alertToast("Saved!", "success");
+              setTimeout(() => {
+                this.$router.back();
+              }, 900);
+            } else {
+              alertToast("Failed!", "error");
+            }
+          })
+          .catch((res) => {
+            alertToast("Failed!", "error");
+          });
       }
     },
   },
 
   mounted() {
-    this.socket = new WebSocket("ws://" + hostname + "/ws/userinfo/");
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data);
-      if (data.saved) {
-        alertToast("Saved!", "success");
-        setTimeout(() => {
-          this.$router.push({ name: "NewChat" });
-        }, 900);
-        return;
-      }
-
-      this.data = data;
-    };
+    axios
+      .get("http://" + hostname + "/api/curr-user")
+      .then((res) => {
+        this.data = res.data;
+      })
+      .catch((res) => {
+        alertToast("Connection Failed!", "error");
+      });
   },
 };
 </script>

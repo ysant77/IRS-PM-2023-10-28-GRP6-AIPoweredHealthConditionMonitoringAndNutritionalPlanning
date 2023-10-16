@@ -12,15 +12,6 @@ from .utils import JSONresponse
 from .states import *
 from .databaseutil import * 
 
-# STATE_MAPPING = {
-#     "GreetingState": GreetingState,
-#     "AskSymptomsState": AskSymptomsState,
-#     "ConfirmSymptomsState": ConfirmSymptomsState,
-#     "DiagnoseState": DiagnoseState,
-#     "MealPlannerState": MealPlannerState
-# }
-
-
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
@@ -77,24 +68,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
             bot_response = JSONresponse("I'm sorry, I didn't understand that.")
             
         await self.send(bot_response)
-
-
-
-class UserInfoConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        if not self.scope['user'].is_authenticated:
-            await self.close()
-        await self.accept()
-        self.uid = self.scope['user'].id
-        user = await get_user(self.uid)
-        user_dict = model_to_dict(user)
-        await self.send(JSONresponse(**user_dict))
-
-
-    async def disconnect(self, code):
-        pass
-
-    async def receive(self, text_data=None, bytes_data=None):
-        info_data_dict = json.loads(text_data)
-        await update_user(**info_data_dict)
-        await self.send(JSONresponse(**{'saved':True}))

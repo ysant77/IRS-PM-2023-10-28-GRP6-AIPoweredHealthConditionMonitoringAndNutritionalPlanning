@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from diagnosis import views, consumers
+from diagnosis import views
 from django.contrib import admin
 
 urlpatterns = [
@@ -25,5 +25,7 @@ urlpatterns = [
 
     path('admin/',admin.site.urls),
 
-    path('api/currentuser/', consumers.UserInfoConsumer.as_asgi()),
+    # API for HTTP
+    path('api/curr-user', views.curr_user_info),
+    path('api/curr-user-update', views.update_user_info),
 ]

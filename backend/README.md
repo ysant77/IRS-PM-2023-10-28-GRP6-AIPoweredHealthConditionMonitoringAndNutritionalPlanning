@@ -1,17 +1,15 @@
 # Backend
 
-## NOTICE
-**You don't have to run migration commands before starting the server.**
-**as long as the .sqlite3 file is intact.**
-
----
-
-
+ Note: 
+ 1) SQLite must be installed.
+ 2) Anaconda should be installed.
 
 Create a new virtual environment:
-
+ENVNAME: your environment name
+[] is optional
 ```
-conda create --name chatbot_ui --clone base
+conda create --name {ENVNAME} [--clone base]
+activate {ENVNAME}
 ```
 
 Install the requirements as follows: 
@@ -22,20 +20,18 @@ Install the spacy model as:
 ```
 python -m spacy download en_core_web_md
 ```
-Then do the migrations as follows:
+Then do the migrations as follows: 
+(Note: You may not have to do this step before starting the server. As long as the .sqlite3 file is intact.)
 
  ```
  python manage.py makemigrations
  python manage.py migrate
  ```
 
- Note: 
- 1) SQLite must be installed.
- 2) Anaconda should be installed.
-
 Finally run the application as follows:
  (Make sure you're in the directory where manage.py is present)
 
 ```
-daphne ai_health_monitoring.asgi:application
+python manage.py runserver
 ```
+(or run "daphne ai_health_monitoring.asgi:application")

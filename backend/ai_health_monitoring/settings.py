@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.sites",
@@ -45,10 +47,14 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     "channels",
-    "diagnosis"
+    "corsheaders",
+
+    "diagnosis",
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -69,14 +75,16 @@ ALLAUTH = {
     'SOCIALACCOUNT_ADAPTER': 'myapp.adapters.CustomSocialAccountAdapter',
 }
 
+# allow cors requests
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True 
+
+# Allauth Login
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_QUERY_EMAIL = True  # Query for email during OAuth signup.
 ACCOUNT_EMAIL_REQUIRED = True  # Require email during signup
 
-
-
 SITE_ID = 1
-
 LOGIN_REDIRECT_URL = '/chat/'
 
 
@@ -100,6 +108,7 @@ TEMPLATES = [
     },
 ]
 
+# daphne
 WSGI_APPLICATION = "ai_health_monitoring.wsgi.application"
 ASGI_APPLICATION = 'ai_health_monitoring.asgi.application'
 
