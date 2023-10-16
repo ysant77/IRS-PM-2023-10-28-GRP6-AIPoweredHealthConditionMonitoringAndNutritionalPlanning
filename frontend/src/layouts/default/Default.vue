@@ -1,6 +1,6 @@
 <template>
   <v-layout class="rounded rounded-md">
-    <v-app-bar elevation="4">
+    <v-app-bar color="secondary" elevation="4">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
@@ -9,60 +9,61 @@
 
       <template v-slot:append>
         <v-btn
-          prepend-icon="mdi-content-save"
-          variant="flat"
-          @click.stop="saveChat"
+          prepend-icon="mdi-account-edit"
+          variant="outlined"
+          :to="{ name: 'info' }"
         >
-          Save Chat
-        </v-btn>
-        <v-btn
-          prepend-icon="mdi-plus-circle"
-          variant="elevated"
-          @click.stop="newChat"
-        >
-          New Chat
+          Edit my info
         </v-btn>
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer width="350" v-model="drawer" elevation="3">
-      <v-list>
+    <v-navigation-drawer width="350" v-model="drawer" elevation="3" color="bg">
+      <v-list lines="two">
         <v-list-item
           link
+          size="large"
           v-for="item in historyList"
           :key="item.title"
-          :title="item.title"
+          :title="'Chat title'"
+          :subtitle="'Saved time'"
           :to="{ name: 'Chat', params: { cid: item.tstamp } }"
         >
           <!-- <v-tooltip activator="parent"> TIME </v-tooltip> -->
         </v-list-item>
-      </v-list>
 
-      <template v-slot:append>
         <v-btn
           block
+          prepend-icon="mdi-plus"
           variant="text"
           size="large"
-          color="primary"
           class="my-2 px-3"
-          text="Edit info"
-          :to="{name:'info'}"
-        ></v-btn>
-      </template>
+          color="primary"
+          @click.stop="newChat"
+          >New chat</v-btn
+        >
+      </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar location="bottom" height="auto" grow>
+    <v-app-bar location="bottom" height="auto" elevation="0" grow>
       <v-text-field
+        class="mb-1 ml-3 mt-1"
         v-model="input"
-        auto-grow
-        variant="solo"
+        variant="outlined"
         rows="1"
-        placeholder="Input..."
+        placeholder="Input here..."
+        color="primary"
         @keyup.enter="sendInput"
         hide-details
         clearable
       ></v-text-field>
-      <v-btn icon="mdi-send" @click.stop="sendInput"></v-btn>
+      <v-btn
+        class="mr-10"
+        icon="mdi-send"
+        size="large"
+        color="primary"
+        @click.stop="sendInput"
+      ></v-btn>
     </v-app-bar>
 
     <v-main
@@ -102,7 +103,7 @@ export default {
           tstamp: 1695562257580,
         },
         {
-          title: "Old chat 2",
+          title: "",
           tstamp: 1695532257580,
         },
         {

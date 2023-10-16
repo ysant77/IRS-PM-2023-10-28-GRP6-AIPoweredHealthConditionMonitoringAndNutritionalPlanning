@@ -10,10 +10,13 @@ class DiagnosisConfig(AppConfig):
     name = "diagnosis"
     data_dir_name = "../data"
     model_dir_name = "../models"
+
     def ready(self):
+        ## =================diagnosis================= ##
         self.dataframe = pd.read_csv("{}/Training.csv".format(self.data_dir_name))
         self.dataframe = self.dataframe.drop(columns="Unnamed: 133")
         self.dataframe.columns = list(map(clean_col_name, list(self.dataframe.columns)))
+        self.symptoms = list(self.dataframe.columns)[:-1]
 
         self.disease_filter = pd.read_csv("{}/dataset.csv".format(self.data_dir_name))
         self.disease_filter = self.disease_filter[['Disease','Nutrition_Rec_1']]
@@ -22,14 +25,13 @@ class DiagnosisConfig(AppConfig):
         self.precautions_df.columns = list(map(clean_col_name, list(self.precautions_df.columns)))
         self.precautions_df = self.precautions_df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
-        self.symptoms = list(self.dataframe.columns)[:-1]
-
-        self.mlb = load("{}/onevsrest_svm_multilabel_binarizer.joblib".format(self.model_dir_name))
-
-        self.classifier = load("{}/onevsrest_svm_classifier.joblib".format(self.model_dir_name))
+        self.mlb = load("{}/classifierchain_svm_multilabel_binarizer.joblib".format(self.model_dir_name))
+        self.classifier = load("{}/classifierchain_svm_classifier.joblib".format(self.model_dir_name))
 
         self.nlp = spacy.load("en_core_web_md")
 
+
+        ## ===========meal planner============= ##
         self.food_df_for_checker = pd.read_csv('{}/Food.csv'.format(self.data_dir_name), encoding='latin1')
         self.food_df_for_checker.drop(['Calcium', 'Iron', 'Sodium', 'Vitamin A', 'Vitamin B1 (Thiamine)', 
                                 'Vitamin B2 (Rivoflavin)', 'Vitamin C', 'Linoleic Acid', 

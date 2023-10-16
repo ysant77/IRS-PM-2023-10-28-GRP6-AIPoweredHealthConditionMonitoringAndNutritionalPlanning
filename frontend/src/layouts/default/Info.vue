@@ -61,6 +61,7 @@
       <v-divider></v-divider>
       <v-list-subheader>Exercise amount (days/week)</v-list-subheader>
       <v-slider
+        color="secondary"
         v-model="data.exec_lvl"
         :ticks="exec_labels"
         :max="5"
@@ -68,9 +69,12 @@
         step="1"
         show-ticks="always"
         tick-size="4"
+        class="pb-4"
       ></v-slider>
+
       <v-list-subheader>Weight goal</v-list-subheader>
       <v-slider
+        color="secondary"
         v-model="data.weight_goal"
         :ticks="goal_labels"
         :max="3"
@@ -78,9 +82,10 @@
         step="1"
         show-ticks="always"
         tick-size="4"
+        class="pb-4"
       ></v-slider>
 
-      <v-btn type="submit" block class="mt-2 bg-primary large">confirm</v-btn>
+      <v-btn type="submit" block class="bg-primary large">confirm</v-btn>
     </v-form>
   </v-card>
 </template>

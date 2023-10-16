@@ -151,7 +151,8 @@ export default {
           },
         ];
       } else {
-        //load
+        // send http req for query in message saved
+        // then push into this.msglist
       }
     },
   },
