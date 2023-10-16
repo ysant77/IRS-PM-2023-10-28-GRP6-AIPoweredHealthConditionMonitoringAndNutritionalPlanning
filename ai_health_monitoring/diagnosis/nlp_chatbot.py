@@ -1,7 +1,6 @@
 
 import pandas as pd
 import numpy as np
-import spacy
 from fuzzywuzzy import fuzz
 from django.apps import apps
 
@@ -58,29 +57,56 @@ def calculate_semantic_similarity(token_list1, token_list2):
     text2 = " ".join(token_list2)
     return nlp(text1).similarity(nlp(text2))
 
-def find_best_match(user_symptom, symptom_columns):
+# def find_best_match(user_symptom, symptom_columns):
+#     best_match = None
+#     best_fuzzy_score = 0
+#     best_semantic_score = 0
+    
+#     for possible_symptom in symptom_columns:
+#         fuzzy_score = fuzz.ratio(user_symptom, possible_symptom)
+#         if fuzzy_score > 70:  
+#             semantic_similarity = calculate_semantic_similarity(
+#                 user_symptom.split("_"), possible_symptom.split("_")
+#             )
+
+#             # A weighted sum of fuzzy and semantic similarity
+#             combined_score = 0.5 * fuzzy_score + 0.5 * semantic_similarity
+
+#             if combined_score > best_semantic_score + best_fuzzy_score:
+#                 best_fuzzy_score = fuzzy_score
+#                 best_semantic_score = semantic_similarity
+#                 best_match = possible_symptom
+
+#     return best_match
+
+
+
+def find_best_match(user_symptom, symptom_columns, top_n=3):
     best_match = None
     best_fuzzy_score = 0
     best_semantic_score = 0
-
-    for possible_symptom in symptom_columns:
-        fuzzy_score = fuzz.ratio(user_symptom, possible_symptom)
-
-        # Only proceed with relatively good fuzzy matches
-        if fuzzy_score > 70:  # Threshold can be adjusted
+    #calculate fuzz ratio for all symptoms
+    fuzzy_scores = {possible_symptom: fuzz.ratio(user_symptom, possible_symptom) for possible_symptom in symptom_columns}
+    
+    dynamic_threshold = np.mean(list(fuzzy_scores.values())) + 5  #Adding 5 for a margin
+    
+    #take only the top n symptoms
+    sorted_symptoms = sorted(fuzzy_scores.keys(), key=lambda x: fuzzy_scores[x], reverse=True)[:top_n]
+    
+    for possible_symptom in sorted_symptoms:
+        fuzzy_score = fuzzy_scores[possible_symptom]
+        if fuzzy_score > dynamic_threshold:
             semantic_similarity = calculate_semantic_similarity(
                 user_symptom.split("_"), possible_symptom.split("_")
             )
-
-            # A weighted sum of fuzzy and semantic similarity
             combined_score = 0.5 * fuzzy_score + 0.5 * semantic_similarity
-
             if combined_score > best_semantic_score + best_fuzzy_score:
                 best_fuzzy_score = fuzzy_score
                 best_semantic_score = semantic_similarity
                 best_match = possible_symptom
 
     return best_match
+
 
 
 def extract_symptoms(text, available_symptoms=symptoms):
@@ -92,31 +118,17 @@ def extract_symptoms(text, available_symptoms=symptoms):
         best_match = find_best_match(token, available_symptoms)
         if best_match:
             detected_symptoms.append(best_match)
-
     return detected_symptoms
 
 def create_multilabel_data(user_symptoms):
-    # Initialize an empty DataFrame with symptom columns
     user_data = pd.DataFrame(columns=symptoms)
 
-    # Set the corresponding columns to 1 based on the user's closest matches
     for closest_match in user_symptoms:
-        user_data.loc[0, closest_match] = 1  # Assuming 0 is the row index
+        user_data.loc[0, closest_match] = 1 
 
     return user_data
 
 def get_top_diseases(probabilities, disease_labels, top_n=3, threshold=0.01):
-    """
-    Given the model's output probabilities, return the top N diseases which exceed a certain threshold.
-
-    :param probabilities: List or ndarray of predicted probabilities.
-    :param disease_labels: List of disease labels corresponding to indices in probabilities.
-    :param top_n: Number of top diseases to return.
-    :param threshold: Minimum probability threshold to consider a disease.
-
-    :return: A list of tuples containing the top N diseases and their probabilities.
-    """
-
     # Ensure probabilities is a numpy array
     probabilities = np.array(probabilities).flatten()
 

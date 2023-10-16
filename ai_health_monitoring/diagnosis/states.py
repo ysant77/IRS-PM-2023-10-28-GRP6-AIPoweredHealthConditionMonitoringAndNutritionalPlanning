@@ -1,4 +1,3 @@
-# states.py
 from channels.db import database_sync_to_async
 from .utils import format_diagnosis_for_display
 from .nlp_chatbot import extract_symptoms, get_relevant_symptoms, perform_diagnosis
@@ -20,16 +19,15 @@ class BaseState:
 class GreetingState(BaseState):
 
     async def respond(self):
-        self.session.username = self.user_message
+        self.session.username = self.username
         self.session.conversation_state = 'AskSymptomsState'
 
         await self._save_session()#self.session.save()
-        return f"Hello, {self.user_message}! What symptoms are you facing?"
+        return f"Hello, {self.username}! What symptoms are you facing?"
 
 class AskSymptomsState(BaseState):
 
     async def respond(self):
-        # Here you should use your model or function to identify potential matching symptoms
         
         self.user_message = str(self.user_message).lower()
         extracted_symptoms = extract_symptoms(self.user_message)
@@ -40,12 +38,12 @@ class AskSymptomsState(BaseState):
         if relevant_symptoms:
             self.session.conversation_state = 'ConfirmSymptomsState'
             self.session.extracted_symptoms = ",".join(relevant_symptoms)
-            await self._save_session()#self.session.save()
+            await self._save_session()
             return {"type": "multi_select", "bot_message": "Are you facing any of these symptoms? or type 'continue' for diagnosis",
                      "options": relevant_symptoms}
         else:
             self.session.conversation_state = 'DiagnoseState'
-            await self._save_session()#self.session.save()
+            await self._save_session()
             return await self._diagnose(extracted_symptoms)
 
     async def _diagnose(self, symptoms):
@@ -81,8 +79,9 @@ class DiagnoseState(BaseState):
         if self.user_message == "yes":
             self.session.conversation_state = 'MealPlannerState'
             await self._save_session()
-            return "Here's a meal plan for you"
+            return "Here's a meal plan for you. \nType anything to continue."
         elif self.user_message == "no":
+            print('inside the no part ')
             self.session.conversation_state = 'GreetingState'
             await self._save_session()
             return "Is there anything else you'd like to know or ask?"

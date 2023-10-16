@@ -1,8 +1,5 @@
-# consumers.py
 import django
 django.setup()
-#import os
-#os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 from channels.db import database_sync_to_async
 
 
@@ -12,7 +9,7 @@ from .models import ChatSession, ChatMessage
 from .states import GreetingState, AskSymptomsState, ConfirmSymptomsState, DiagnoseState, MealPlannerState
 
 STATE_MAPPING = {
-    #"GreetingState": GreetingState,
+    "GreetingState": GreetingState,
     "AskSymptomsState": AskSymptomsState,
     "ConfirmSymptomsState": ConfirmSymptomsState,
     "DiagnoseState": DiagnoseState,
@@ -33,12 +30,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
     async def connect(self):
         if not self.scope["user"].is_authenticated:
-            # Reject the connection
+            
             await self.close()
             return
         self.username = self.scope['user'].username
         self.session_id = self.scope['url_route']['kwargs']['session_id']
-        self.session, created = await get_or_create_session(self.session_id, self.username) #ChatSession.objects.get_or_create(id=self.session_id)
+        self.session, created = await get_or_create_session(self.session_id, self.username)
 
         await self.accept()
 
@@ -61,15 +58,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return
 
         response_data = {}
-        # Check if a diagnosis was just given
-
-        #print('BEFORE STATE MAPPING ',self.session.conversation_state)
         state_cls = STATE_MAPPING.get(self.session.conversation_state)
         if state_cls:
             state_instance = state_cls(self.session, user_message, self.username)
             bot_response = await state_instance.respond()
-            #print(bot_response)
-            #print(self.session.conversation_state)
+            
             if isinstance(bot_response, dict) and bot_response.get("type") == "multi_select":
                 response_data = bot_response
             else:

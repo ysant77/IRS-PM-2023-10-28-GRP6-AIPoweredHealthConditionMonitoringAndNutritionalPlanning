@@ -6,46 +6,10 @@ function generateSessionId() {
 let sessionId = generateSessionId();
 let socket = new WebSocket("ws://" + window.location.host + "/ws/chat/" + sessionId + "/");
 
-
-// socket.onmessage = function(event) {
-//     let data = JSON.parse(event.data);
-//     let chatBox = document.getElementById("chatBox");
-    
-//     // Create a new div for the bot's message
-//     let botMessageDiv = document.createElement("div");
-//     if(data.type === "multi_select") {
-//         let content = "<div><strong>Bot:</strong> " + data["bot_message"] + "</div>";
-//         content += "<div id='dynamicContent'>";
-//         for(let symptom of data.options) {
-//             content += `<label><input type='checkbox' value='${symptom}'>${symptom}</label>`;
-//         }
-//         content += "</div>";
-//         chatBox.innerHTML += content;
-//         return;
-//     }
-//     else{
-//     // Check if the bot's message is a table by looking for the <table> tag
-//        botMessageDiv.innerHTML += "<strong>Bot:</strong> ";
-//     if (data["bot_message"].includes("<table")) {
-//         let tempDiv = document.createElement("div");
-//         tempDiv.innerHTML = data["bot_message"];
-        
-//         // Assuming DOMPurify is loaded, sanitize the HTML
-//         let sanitizedContent = DOMPurify.sanitize(tempDiv.innerHTML);
-//         botMessageDiv.innerHTML += sanitizedContent;
-//     } else {
-//         botMessageDiv.innerText += data["bot_message"];
-//     }
-// }
-
-//     chatBox.appendChild(botMessageDiv);
-// };
-
 socket.onmessage = function(event) {
     let data = JSON.parse(event.data);
     let chatBox = document.getElementById("chatBox");
     
-    // Create a new div for the bot's message
     let botMessageDiv = document.createElement("div");
 
     if(data.type === "multi_select") {
@@ -73,7 +37,6 @@ socket.onmessage = function(event) {
             let tempDiv = document.createElement("div");
             tempDiv.innerHTML = data["bot_message"];
             
-            // Assuming DOMPurify is loaded, sanitize the HTML
             let sanitizedContent = DOMPurify.sanitize(tempDiv.innerHTML);
             botMessageDiv.innerHTML += sanitizedContent;
         } else {
@@ -89,29 +52,28 @@ function sendMessage() {
     let userMessageInput = document.getElementById("userMessage");
     let chatBox = document.getElementById("chatBox");
     let message = userMessageInput.value;
-
     if(document.getElementById("dynamicContent")) {
         let checkboxes = document.querySelectorAll("#dynamicContent input[type='checkbox']:checked");
         let selectedOptions = [];
         for(let checkbox of checkboxes) {
             selectedOptions.push(checkbox.value);
         }
+        if (selectedOptions.length !== 0){
         message = selectedOptions.join(",");
+        }
     }
-
     let radios = document.getElementsByName("askMealPlan");
+        
         if(radios){
         for(let i = 0; i < radios.length; i++) {
             if(radios[i].checked) {
                 message = radios[i].value;
-                // Clear the selection after reading
                 radios[i].checked = false;
                 break;
             }
         }
     }
     chatBox.innerHTML += "<div><strong>You:</strong> " + message + "</div>";
-
     socket.send(JSON.stringify({
         "message": message
     }));
