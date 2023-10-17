@@ -2,6 +2,7 @@ from channels.db import database_sync_to_async
 
 from .models import *
 
+#this decorator allows us to call the synchronous django db operation in the async methods
 @database_sync_to_async
 def get_or_create_session(session_id, uid):
     return ChatSession.objects.get_or_create(id=session_id, uid=uid)

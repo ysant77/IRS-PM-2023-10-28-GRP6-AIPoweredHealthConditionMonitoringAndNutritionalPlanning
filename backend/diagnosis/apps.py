@@ -12,6 +12,10 @@ class DiagnosisConfig(AppConfig):
     model_dir_name = "../models"
 
     def ready(self):
+        """
+        This function helps to load all the necessary datasets/models needed by the entire application. Loading them in this function
+        makes it available to the entire diagnosis app and does not load them on every user request.
+        """
         ## =================diagnosis================= ##
         self.dataframe = pd.read_csv("{}/Training.csv".format(self.data_dir_name))
         self.dataframe = self.dataframe.drop(columns="Unnamed: 133")
