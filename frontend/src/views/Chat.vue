@@ -26,6 +26,7 @@ import { hostname } from "@/api/index";
 import { alertToast } from "@/util.js";
 
 import { VSonner } from "vuetify-sonner";
+import axios from "axios";
 
 export default {
   components: {
@@ -51,6 +52,25 @@ export default {
       return Date.now() + Math.floor(Math.random() * 1000);
     },
 
+    checkLoginInfo() {
+      let checkSocket = new WebSocket("ws://" + hostname + "/ws/check-login-info/");
+      checkSocket.onmessage = (event)=>{
+        let res = JSON.parse(event.data);
+        if(res.redirect){
+          setTimeout(() => {
+            this.$router.push({ name: res.redirect });
+          }, 500);
+          return;
+        }
+        if(res.status){
+          this.initConnection();
+        }
+      };
+      checkSocket.onerror = (res)=>{
+        alertToast('Connection failed!','error');
+      }
+    },
+
     initConnection() {
       let sessionId = this.generateSessionId();
       this.socket = new WebSocket(
@@ -58,17 +78,18 @@ export default {
       );
       this.socket.onmessage = (event) => {
         let data = JSON.parse(event.data);
-        if (data.redirect) {
-          setTimeout(() => {
-            this.$router.replace({ name: data.redirect });
-          }, 500);
-        }
         if (data.next) {
           this.createMsg(data.msg, "bot");
           this.createMsg(data.next, "bot");
           return;
         }
         this.createMsg(data, "bot");
+      }
+      this.socket.onerror = (event) => {
+        alertToast('Connection to chatbot failed!','error')
+      };
+      this.socket.onclose = (event) => {
+        alertToast('Connection to chatbot closed.','warning')
       };
     },
 
@@ -99,15 +120,6 @@ export default {
       );
     },
 
-    // saveChat() {
-    //   const cid = Date.now();
-    //   const content = {
-    //     chatTitle: this.chatTitle,
-    //     msgList: this.msgList,
-    //   };
-    //   this.alertToast("Chat saved!", "success");
-    // },
-
     loadChat(cid) {
       if (cid === "new") {
         this.msgList = [
@@ -123,7 +135,6 @@ export default {
                 ["a", "b", "c", "d", "", "f"],
               ],
             },
-            dropdown: ["afeqf", "qefewf", "wefewf"],
             plan: [
               {
                 meals: [
@@ -147,7 +158,7 @@ export default {
           {
             sender: "bot",
             text: "Hi! This is prompt message.",
-            options: ["opt 1", "opt 2", "opt 333"],
+            dropdown: ["afeqfqededededededededededed", "qefewfwAEFRAGWRGGGGGGGGG", "wefewf"],
           },
         ];
       } else {
@@ -166,11 +177,10 @@ export default {
 
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.initConnection();
-      if (to.params.cid === "new") {
-        return;
+      if (to.params.cid !== "new") {
+        vm.loadChat(to.params.cid);
       }
-      vm.loadChat(to.params.cid);
+      vm.checkLoginInfo();
     });
   },
 };

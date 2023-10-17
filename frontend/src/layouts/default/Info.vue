@@ -41,19 +41,19 @@
       <v-list-subheader>Food perferances</v-list-subheader>
       <v-checkbox
         hide-details
-        color="primary"
+        color="info"
         label="Halal"
         v-model="data.is_halal"
       ></v-checkbox>
       <v-checkbox
         hide-details
-        color="primary"
+        color="info"
         label="No beef"
         v-model="data.no_beef"
       ></v-checkbox>
       <v-checkbox
         hide-details
-        color="primary"
+        color="info"
         label="Vegetarian"
         v-model="data.is_vegan"
       ></v-checkbox>
@@ -61,7 +61,7 @@
       <v-divider></v-divider>
       <v-list-subheader>Exercise amount (days/week)</v-list-subheader>
       <v-slider
-        color="secondary"
+        color="info"
         v-model="data.exec_lvl"
         :ticks="exec_labels"
         :max="5"
@@ -74,7 +74,7 @@
 
       <v-list-subheader>Weight goal</v-list-subheader>
       <v-slider
-        color="secondary"
+        color="info"
         v-model="data.weight_goal"
         :ticks="goal_labels"
         :max="3"
@@ -85,7 +85,7 @@
         class="pb-4"
       ></v-slider>
 
-      <v-btn type="submit" block class="bg-primary large">confirm</v-btn>
+      <v-btn type="submit" block class="mt-2 bg-secondary large">confirm</v-btn>
     </v-form>
   </v-card>
 </template>

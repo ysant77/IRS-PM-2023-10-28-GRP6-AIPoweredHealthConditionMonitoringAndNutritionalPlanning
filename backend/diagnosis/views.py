@@ -36,4 +36,3 @@ def update_user_info(request, *args):
         user.update(**data)
 
     return JsonResponse({'status':status})
-    

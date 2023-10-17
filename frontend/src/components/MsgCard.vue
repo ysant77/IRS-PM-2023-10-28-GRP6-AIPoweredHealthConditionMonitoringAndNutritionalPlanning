@@ -1,6 +1,9 @@
 <template>
-  <v-card w-auto :variant="msg.sender == 'user' ? 'tonal' : null" elevation="2"
-    :color="msg.sender=='user' ? 'primary': null"
+  <v-card
+    w-auto
+    :variant="msg.sender == 'user' ? 'tonal' : null"
+    elevation="2"
+    :color="msg.sender == 'user' ? 'primary' : null"
   >
     <v-card-text class="text-body-1" v-if="msg.text">
       {{ msg.text }}
@@ -28,7 +31,7 @@
           :label="opt"
           :value="opt"
           :disabled="msg.disabled"
-          color="primary"
+          color="info"
           hide-details
           h-30px
         >
@@ -36,7 +39,7 @@
       </v-list>
       <v-btn
         block
-        class="bg-primary"
+        class="bg-info"
         variant="tonal"
         text="Continue"
         :disabled="msg.disabled"
@@ -68,6 +71,8 @@
 
     <div class="temp" v-if="msg.dropdown">
       <v-combobox
+        style="min-width: 500px; max-width: 100%;"
+        class="mx-1"
         label="Select food you want"
         :items="msg.dropdown"
         :disabled="msg.disabled"
@@ -77,7 +82,7 @@
       </v-combobox>
       <v-btn
         block
-        class="bg-primary"
+        class="bg-info mt-0"
         variant="tonal"
         text="Confirm"
         :disabled="msg.disabled"
@@ -88,37 +93,37 @@
     </div>
 
     <div class="temp" v-if="msg.plan">
-      <v-timeline side="end" align="start">
-        <v-timeline-item
-          size="small"
-          v-for="(day, i) in msg.plan"
-          dot-color="primary"
-        >
-          <template v-slot:opposite>
-            {{ "Day" + (i + 1) }}
-          </template>
+      <v-tabs class="mx-1" v-model="tab" bg-color="info">
+        <v-tab v-for="(day, i) in msg.plan" :value="i">
+          {{ "Day" + (i + 1) }}
+        </v-tab>
+      </v-tabs>
 
-          <v-card elevation="0" v-for="meal in day.meals">
-            <v-card-text class="text-subtitle-1 font-weight-medium pt-2 pb-1">{{
-              meal.name + ":"
-            }}</v-card-text>
-            <v-card-text class="text-body-2 py-0"
-              >Food items: {{ meal.items }}</v-card-text
+      <v-card elevation="0">
+        <v-window v-model="tab">
+          <v-window-item class="px-2" v-for="(day, i) in msg.plan" :value="i">
+            <v-card elevation="0" v-for="meal in day.meals">
+              <v-card-text
+                class="text-h6 font-weight-medium pl-2 pt-5 pb-2"
+                >{{ meal.name + ":" }}</v-card-text
+              >
+              <v-card-text class="text-body-1 py-1"
+                >Food items: {{ meal.items }}</v-card-text
+              >
+              <v-card-text class="text-body-1 py-1"
+                >Calories: {{ meal.energy }}</v-card-text
+              >
+            </v-card>
+            <v-card-text class="text-body-1 font-weight-medium pl-2 pb-1"
+              >Daily Consumption: {{ day.total[0] }} kcal.</v-card-text
             >
-            <v-card-text class="text-body-2 py-0"
-              >Calories: {{ meal.energy }}</v-card-text
+            <v-card-text class="text-body-1 font-weight-medium pl-2 py-0"
+              >Total Daily Energy Expenditure:
+              {{ day.total[1] }} kcal.</v-card-text
             >
-          </v-card>
-
-          <v-card-text class="text-subtitle-2 font-weight-medium pb-0"
-            >Daily consumption: {{ day.total[0] }} kcal.</v-card-text
-          >
-          <v-card-text class="text-subtitle-2 font-weight-medium py-0"
-            >Total Daily Energy Expenditure: {{ day.total[1] }} kcal.</v-card-text
-          >
-          
-        </v-timeline-item>
-      </v-timeline>
+          </v-window-item>
+        </v-window>
+      </v-card>
     </div>
 
     <v-card-text class="text-body-1" v-if="msg.suffix">
@@ -173,7 +178,8 @@ export default {
     choosed: undefined,
     selected: [],
 
-    meals: ["Breakfast", "Lunch", "Dinner"],
+    tab: undefined,
+    meal: null,
 
     dropdownRules: [
       (value) => {

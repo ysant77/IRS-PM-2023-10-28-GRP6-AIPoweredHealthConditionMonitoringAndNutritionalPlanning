@@ -29,8 +29,8 @@ class BaseState:
         ## Using this attr (taking the Consumer in and save temp data in it) 
         ##      is a temperary solution to avoid complexity.
         ## What data should be stored in database is to be discussed.
-        ## For now, these temporary data will be lost once the connection failed,
-        ##      and users won't be able to continue the dialog.
+        ## For now, these temporary data will be lost once the connection closed,
+        ##      and users won't be able to continue the dialog even when reconnect the websocket.
         ##============================================================================================
         self.consumer = consumer
     

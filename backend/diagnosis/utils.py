@@ -20,7 +20,7 @@ def clean_col_name_food(col_name):
     return col_name
 
 
-def JSONresponse(text:str=None, **kwargs):
+def json_res(text:str=None, **kwargs):
     """
     Str or Dict input
     
