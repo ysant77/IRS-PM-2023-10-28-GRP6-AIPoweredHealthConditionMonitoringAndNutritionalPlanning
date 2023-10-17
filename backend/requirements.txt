@@ -1,0 +1,11 @@
+spacy
+fuzzywuzzy
+django
+channels
+daphne
+uvicorn
+channels
+whitenoise
+django-allauth
+django-cors-headers
+scikit-multilearn

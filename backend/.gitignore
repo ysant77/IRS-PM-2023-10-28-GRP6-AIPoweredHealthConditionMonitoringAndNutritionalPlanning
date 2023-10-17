@@ -1,0 +1,28 @@
+*.log
+*.pot
+*.pyc
+*.pyo
+__pycache__/
+local_settings.py
+# db.sqlite3
+media
+
+build/
+dist/
+
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
