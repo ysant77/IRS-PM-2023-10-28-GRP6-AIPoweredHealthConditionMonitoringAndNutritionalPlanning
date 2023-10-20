@@ -1,85 +1,23 @@
-# IRSproj frontend using Vuetify 3
+# IRS project frontend using Vuetify 3
 
+Using Vue.js 3 as frontend framework.
 Using Vuetify 3 for UI.
 Using Vue Router for url routing.
 
-To start server, run these in console:
-(Require node.js and npm)
+
+
+## To start the frontend server (in dev mode):
+
+0. Node.js is required. [Download here.](https://nodejs.org/en/download)
+1. In this directory, run this to install packages. (one-time job)
+
 ```
-npm install
+npm i
 ```
+2. run this to start the server
 
 ```
 npm run dev
 ```
+3. visit localhost:3000
 
----
-## Project setup
-
-```
-# yarn
-yarn
-
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# pnpm
-bun install
-```
-
-### Compiles and hot-reloads for development
-
-**(use these to run in dev)**
-
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# bun
-bun run dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# bun
-bun run build
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-
-# bun
-bun run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).

@@ -7,8 +7,6 @@ from .core.single_meal_planner import get_calorie_goal
 from .core.Food_Nutrition_checker import search_food_data
 from .core.GA_Meal_Planner_r2_5 import recovery_meal_planner, get_food_filter_args
 
-from .databaseutil import get_user
-
 DEFALUT_MSG = 'Sorry, please try again.'
 
 class BaseState:
@@ -17,15 +15,16 @@ class BaseState:
     """
     no_preprocess = False
 
-    def __init__(self, session, user_message, username, consumer=None):
+    def __init__(self, session, user_message, user, user_notify, consumer=None):
         if not self.no_preprocess:
             user_message = str(user_message)
             user_message = user_message.lower()
             user_message = user_message.strip().strip('.')
 
+        self.user = user
         self.session = session
         self.user_message = user_message
-        self.username = username
+        self.user_notify = user_notify
 
         ## =========NOTICE: Every `self.consumer.xxx` code is subject to change. =====================
         ## Using this attr (taking the Consumer in and save temp data in it) 
@@ -109,12 +108,14 @@ class ConfirmSymptomsState(AskSymptomsState):
 
 
 class DiagnoseState(BaseState):
-    async def respond(self):       
+    async def respond(self):   
+        msg2 = {'text':"Is there anything else you'd like to do?",
+                'entries':['Meal planning','Symptom diagnosis']}
+            
         if self.user_message == "yes":
-            self.consumer.plan_days_no = 3
-
-            user = await get_user(self.consumer.user.uid)
-            user_dict = model_to_dict(user)
+            self.consumer.plan_days_no = 5
+            
+            user_dict = model_to_dict(self.user, exclude=['uid','name'])
 
             filter_dict, condition = get_food_filter_args(self.consumer.top_disease)
 
@@ -122,28 +123,34 @@ class DiagnoseState(BaseState):
                                                      userinfo_kwargs=user_dict,
                                                      foodfilter_kwargs=filter_dict)
 
+            meal_plan_dict = {'days':self.consumer.plan_days_no, 'plan':meal_plan_output}
+            await self._update_notify(meal_plan_dict)
+
             self.session.conversation_state = 'GreetingState'
             await self._save_session()
 
-            message = f' you are recommended to have {condition.lower()} food. ' if filter_dict else ' there is no limitation of your food choise. '
-            return {'text':f'Here is your {self.consumer.plan_days_no}-day meal plan.',
+            message = f' you are recommended to have {condition.lower()} food. ' if filter_dict else ' there is no limitation for your food choise. '
+            msg1 = {'text':f'Here is your {self.consumer.plan_days_no}-day meal plan.',
                     'plan':meal_plan_output,
                     'suffix':f'This meal plan was generated considering your possible disease {self.consumer.top_disease},'
                             +message+'This meal plan is just for reference.'}
+            return {'msg':msg1, 'next':msg2}
         
         if self.user_message == "no":
             self.session.conversation_state = 'GreetingState'
             await self._save_session()
-            return {'text':"Is there anything else you'd like to do?",
-                    'entries':['Meal planning','Symptom diagnosis']}
-
+            return msg2
+        
+    @database_sync_to_async
+    def _update_notify(self, meal_plan: dict):
+        self.user_notify.latest_meal_plan = meal_plan
+        self.user_notify.save()
 
 
 class AskMealState(BaseState):
     async def respond(self):
         if self.user_message in ['breakfast', 'lunch', 'dinner']:
-            user = await get_user(self.consumer.user.uid)
-            user_dict = model_to_dict(user)
+            user_dict = model_to_dict(self.user, exclude=['uid','name'])
             self.consumer.remain_calorie = get_calorie_goal(user_meal_type=self.user_message, **user_dict)
 
             self.consumer.meal = self.user_message

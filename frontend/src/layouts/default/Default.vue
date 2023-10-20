@@ -9,6 +9,14 @@
 
       <template v-slot:append>
         <v-btn
+          icon="mdi-bell"
+          size="small"
+          class="mx-5"
+          variant="outlined"
+          :to="{ name: 'configTelegram' }"
+        >
+        </v-btn>
+        <v-btn
           prepend-icon="mdi-account-edit"
           variant="outlined"
           :to="{ name: 'info' }"
