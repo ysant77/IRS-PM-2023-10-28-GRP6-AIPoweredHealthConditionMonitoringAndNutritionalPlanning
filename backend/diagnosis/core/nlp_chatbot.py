@@ -241,7 +241,8 @@ def perform_diagnosis(symptoms_list):
     user_symptoms = user_symptoms.fillna(0)
     # Predict probabilities for all diseases
     disease_probabilities = classifier.predict_proba(user_symptoms.values)
-
+    disease_probabilities = disease_probabilities.toarray()
+    
     # Get the top 3 predicted diseases
     top_diseases = get_top_diseases(
         disease_probabilities, mlb.classes_, top_n=3, threshold=0.01
