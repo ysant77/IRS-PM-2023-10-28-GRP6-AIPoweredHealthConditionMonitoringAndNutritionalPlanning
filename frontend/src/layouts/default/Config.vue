@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { hostname, axios } from "@/api/index";
+import { hostname, axios } from "@/api.js";
 import { alertToast } from "@/util.js";
 
 import { VSonner } from "vuetify-sonner";
@@ -150,6 +150,8 @@ export default {
           }
           if (res.data.sent) {
             alertToast("Sent!", "success");
+          }else{
+            alertToast("You haven't had a meal plan yet!", "warning");
           }
         })
         .catch((res) => {

@@ -9,6 +9,7 @@
       >
         <MsgCard
           :msg="msg"
+          :disabled="disabled"
           @sendMsg="
             (msg) => {
               sendMsg(msg);
@@ -22,11 +23,10 @@
 
 <script>
 import MsgCard from "@/components/MsgCard.vue";
-import { hostname } from "@/api/index";
-import { alertToast } from "@/util.js";
+import { hostname, axios } from "@/api.js";
+import { alertToast, testdata } from "@/util.js";
 
 import { VSonner } from "vuetify-sonner";
-import axios from "axios";
 
 export default {
   components: {
@@ -34,7 +34,10 @@ export default {
     VSonner,
   },
   props: ["cid"],
+  emits: ["disableSend","enableSend","updateHist"],
+
   data: () => ({
+    disabled: false,
     msgList: [],
     socket: undefined,
     msgStyles: {
@@ -49,7 +52,7 @@ export default {
 
   methods: {
     generateSessionId() {
-      return Date.now() + Math.floor(Math.random() * 1000);
+      this.session_id = Date.now() + Math.floor(Math.random() * 1000);
     },
 
     checkLoginInfo() {
@@ -72,11 +75,12 @@ export default {
     },
 
     initConnection() {
-      let sessionId = this.generateSessionId();
       this.socket = new WebSocket(
-        "ws://" + hostname + "/ws/chat/" + sessionId + "/"
+        "ws://" + hostname + "/ws/chat/" + this.session_id + "/"
       );
       this.socket.onmessage = (event) => {
+        this.$emit("enableSend");
+        this.disabled = false;
         let data = JSON.parse(event.data);
         if (data.next) {
           this.createMsg(data.msg, "bot");
@@ -84,7 +88,7 @@ export default {
           return;
         }
         this.createMsg(data, "bot");
-      }
+      };
       this.socket.onerror = (event) => {
         alertToast('Connection to chatbot failed!','error')
       };
@@ -98,12 +102,8 @@ export default {
         msg = { text: msg };
       }
       msg.sender = sender;
-      msg.disabled = false;
-      if (this.msgList.length > 0) {
-        this.msgList[this.msgList.length - 1].disabled = true;
-      }
       this.msgList.push(msg);
-      this.scrollDown();
+      setTimeout('this.scrollDown()',300);
     },
 
     scrollDown() {
@@ -113,6 +113,8 @@ export default {
 
     sendMsg(text) {
       this.createMsg(text, "user");
+      this.$emit('disableSend');
+      this.disabled = true;
       this.socket.send(
         JSON.stringify({
           message: text,
@@ -121,66 +123,64 @@ export default {
     },
 
     loadChat(cid) {
+      this.msgList = []
       if (cid === "new") {
-        this.msgList = [
-          {
-            sender: "bot",
-            text: "Hi! This is prompt message.",
-            entries: ["ASDASd", "eqeqfqef"],
-            options: ["opt 1", "opt 2", "opt 333"],
-            table: {
-              header: "diagnosis",
-              content: [
-                ["a", "b", "c", "d", "e", "f"],
-                ["a", "b", "c", "d", "", "f"],
-              ],
-            },
-            plan: [
-              {
-                meals: [
-                  { name: "Dinner", items: "asfeaff", energy: "123" },
-                  { name: "Dinner", items: "asfeaff", energy: "123" },
-                ],
-                total: [123,456]
-              },
-              {
-                meals: [
-                  { name: "Dinner", items: "asfeaff", energy: "123" },
-                  { name: "Dinner", items: "asfeaff", energy: "123" },
-                ],
-                total: [123,456]
-              },
-            ],
-            suffix: "diagnosis",
-            confirm: ["Yes", "No"],
-          },
-
-          {
-            sender: "bot",
-            text: "Hi! This is prompt message.",
-            dropdown: ["afeqfqededededededededededed", "qefewfwAEFRAGWRGGGGGGGGG", "wefewf"],
-          },
-        ];
+        // this.msgList = testdata;
+        return;
       } else {
         // send http req for query in message saved
         // then push into this.msglist
+        axios.post("http://"+hostname+"/api/get-chat-msgs", {'cid':cid})
+        .then((res)=>{
+          if(res.data.status){
+            // this.msgList = res.data.data;
+            for (let i=0; i<res.data.data.length; i++){
+              let obj = res.data.data[i];
+              if (obj.is_user){
+                this.createMsg(obj.content, 'user');
+                continue;
+              }else{
+                obj = JSON.parse(obj.content);
+              } 
+              if(obj.next){
+                this.createMsg(obj.msg, "bot");
+                this.createMsg(obj.next, "bot");
+                continue;
+              }
+              this.createMsg(obj, 'bot');
+            };
+          }else{
+            alertToast('Fetch chat messages failed!','error');
+          }
+        })
       }
     },
   },
 
   beforeRouteUpdate(to, from) {
-    if (to.params.cid === "new") {
-      return;
-    }
     this.loadChat(to.params.cid);
+    if (to.params.cid === "new") {
+      this.generateSessionId()
+    }else{
+        this.session_id = to.params.cid;
+    }
+    this.initConnection();
+    this.$emit("updateHist");
   },
 
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      if (to.params.cid !== "new") {
-        vm.loadChat(to.params.cid);
+      // if (to.params.cid !== "new") {
+      //   vm.loadChat(to.params.cid);
+      // }
+      vm.loadChat(to.params.cid);
+      if (to.params.cid === 'new'){
+        vm.generateSessionId();
+      }else{
+        vm.session_id = to.params.cid;
       }
       vm.checkLoginInfo();
+      vm.$emit("updateHist");
     });
   },
 };

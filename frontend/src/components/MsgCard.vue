@@ -16,7 +16,7 @@
           class="text-none"
           v-for="ent in msg.entries"
           @click.stop="sendEntry(ent)"
-          :disabled="msg.disabled"
+          :disabled="disabled"
         >
           {{ ent }}
         </v-btn>
@@ -30,7 +30,6 @@
           v-for="opt in msg.options"
           :label="opt"
           :value="opt"
-          :disabled="msg.disabled"
           color="info"
           hide-details
           h-30px
@@ -42,7 +41,7 @@
         class="bg-info"
         variant="tonal"
         text="Continue"
-        :disabled="msg.disabled"
+        :disabled="disabled"
         density="comfortable"
         @click.stop="sendSelected"
       >
@@ -75,7 +74,6 @@
         class="mx-1"
         label="Select food you want"
         :items="msg.dropdown"
-        :disabled="msg.disabled"
         v-model="choosed"
         :rules="dropdownRules"
       >
@@ -85,7 +83,7 @@
         class="bg-info mt-0"
         variant="tonal"
         text="Confirm"
-        :disabled="msg.disabled"
+        :disabled="disabled"
         density="comfortable"
         @click.stop="sendChoosed"
       >
@@ -137,25 +135,26 @@
         class="bg-success mx-1 mb-1"
         :text="msg.confirm[0]"
         @click.stop="sendEntry(msg.confirm[0])"
-        :disabled="msg.disabled"
+        :disabled="disabled"
       >
       </v-btn>
       <v-btn
         variant="tonal"
         density="comfortable"
-        class="bg-error mx-1 mb-1"
+        class="mx-1 mb-1"
         :text="msg.confirm[1]"
         @click.stop="sendEntry(msg.confirm[1])"
-        :disabled="msg.disabled"
+        :disabled="disabled"
       >
       </v-btn>
-    </div>
+  </div>
   </v-card>
 </template>
 
 <script>
 export default {
-  props: ["msg"],
+  props: ["msg", "disabled"],
+  emits: ["sendMsg"],
 
   data: () => ({
     suffix_map: {
