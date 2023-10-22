@@ -1,6 +1,4 @@
-### <<<<<<<<<<<<<<<<<<<< Start of Template >>>>>>>>>>>>>>>>>>>>
 
----
 
 ## SECTION 1 : PROJECT TITLE
 ## AI Powered Health Condition Monitoring and Nutrition Planning
@@ -34,39 +32,15 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 [![Sudoku AI Solver](http://img.youtube.com/vi/-AiYLUjP6o8/0.jpg)](https://youtu.be/-AiYLUjP6o8 "Sudoku AI Solver")
 
-Note: It is not mandatory for every project member to appear in video presentation; Presentation by one project member is acceptable. 
-More reference video presentations [here](https://telescopeuser.wordpress.com/2018/03/31/master-of-technology-solution-know-how-video-index-2/ "video presentations")
-
 ---
 
 ## SECTION 5 : USER GUIDE
 
 `Refer to appendix <Installation & User Guide> in project report at Github Folder: ProjectReport`
 
-### [ 1 ] To run the system using iss-vm
 
-> download pre-built virtual machine from http://bit.ly/iss-vm
-
-> start iss-vm
-
-> open terminal in iss-vm
-
-> $ git clone https://github.com/telescopeuser/Workshop-Project-Submission-Template.git
-
-> $ source activate iss-env-py2
-
-> (iss-env-py2) $ cd Workshop-Project-Submission-Template/SystemCode/clips
-
-> (iss-env-py2) $ python app.py
-
-> **Go to URL using web browser** http://0.0.0.0:5000 or http://127.0.0.1:5000
-
-### [ 2 ] To run the system in other/local machine:
-### Install additional necessary libraries. This application works in python 2 only.
-
-> $ sudo apt-get install python-clips clips build-essential libssl-dev libffi-dev python-dev python-pip
-
-> $ pip install pyclips flask flask-socketio eventlet simplejson pandas
+### [ 1 ] To run the system in other/local machine:
+> Refer to the README.md file in ProjectCode for installation on local machine.
 
 ---
 ## SECTION 6 : PROJECT REPORT / PAPER
