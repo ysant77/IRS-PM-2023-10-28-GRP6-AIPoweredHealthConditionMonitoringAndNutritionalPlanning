@@ -221,7 +221,7 @@ def get_food_filter_args(disease_name):
     rec:str = disease_rows['Nutrition_Rec_1'].unique()[0]
 
     if rec in ('-','Low-sodium'):
-        return {}
+        return {}, None
     condition = rec.replace('-',' ').replace('_',' ')
     rec = rec.replace('-','_')
     rec = rec.lower()

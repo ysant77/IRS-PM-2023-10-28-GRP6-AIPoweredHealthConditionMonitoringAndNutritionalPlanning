@@ -33,7 +33,13 @@ const routes = [
     path: "/info/",
     component: () => import("@/layouts/default/Info.vue"),
     name: "info",
-  }
+  },
+
+  {
+    path: "/config-telegram/",
+    component: () => import("@/layouts/default/Config.vue"),
+    name: "configTelegram",
+  },
 ];
 
 const router = createRouter({

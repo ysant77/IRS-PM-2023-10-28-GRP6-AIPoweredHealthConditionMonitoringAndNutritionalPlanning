@@ -28,4 +28,10 @@ urlpatterns = [
     # API for HTTP
     path('api/curr-user', views.curr_user_info),
     path('api/curr-user-update', views.update_user_info),
+    path('api/curr-user-notify', views.curr_user_notify),
+    path('api/curr-user-verify', views.curr_user_verify),
+    path('api/send-tele-msg', views.send_tele_meal_plan),
+    
+    path('api/curr-user-hist', views.curr_user_hist),
+    path('api/get-chat-msgs', views.get_chat_msgs),
 ]

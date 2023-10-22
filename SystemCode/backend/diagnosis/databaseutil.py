@@ -12,15 +12,18 @@ def create_chat_message(session, is_user, content):
     return ChatMessage.objects.create(session=session, is_user=is_user, content=content)
 
 @database_sync_to_async
-def get_or_create_user(uid):
-    return Users.objects.get_or_create(uid=uid)
+def get_or_create_user(uid, **kwargs):
+    return Users.objects.get_or_create(uid=uid, **kwargs)
 
 @database_sync_to_async
 def get_user(uid):
     return Users.objects.get(uid=uid)
 
 @database_sync_to_async
-def update_user(**params):
-    uid = params.pop('uid')
-    user = Users.objects.filter(uid=uid)
-    user.update(**params)
+def set_user_name(uid, name):
+    users = Users.objects.filter(uid=uid)
+    users.update(name=name)
+
+@database_sync_to_async
+def get_or_create_user_notify(user):
+    return UserNotify.objects.get_or_create(user=user)

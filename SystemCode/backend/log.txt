@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\django\contrib\staticfiles\handlers.py", line 101, in __call__
+    return await self.application(scope, receive, send)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\routing.py", line 62, in __call__
+    return await application(scope, receive, send)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\sessions.py", line 47, in __call__
+    return await self.inner(dict(scope, cookies=cookies), receive, send) 
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\sessions.py", line 263, in __call__
+    return await self.inner(wrapper.scope, receive, wrapper.send)        
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\auth.py", line 185, in __call__
+    return await super().__call__(scope, receive, send)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\middleware.py", line 24, in __call__
+    return await self.inner(scope, receive, send)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\routing.py", line 116, in __call__
+    return await application(
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\consumer.py", line 94, in app
+    return await consumer(scope, receive, send)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\consumer.py", line 58, in __call__
+    await await_many_dispatch(
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\utils.py", 
+line 50, in await_many_dispatch
+    await dispatch(result)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\consumer.py", line 73, in dispatch
+    await handler(message)
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\channels\generic\websocket.py", line 194, in websocket_receive
+    await self.receive(text_data=message["text"])
+  File "D:\Scripts\IRS-proj\backend\diagnosis\consumers.py", line 40, in 
+receive
+    bot_response = await state_instance.respond()
+  File "D:\Scripts\IRS-proj\backend\diagnosis\states.py", line 107, in respond
+    return await self._diagnose(combined_symptoms)
+  File "D:\Scripts\IRS-proj\backend\diagnosis\states.py", line 80, in _diagnose
+    disease_list = perform_diagnosis(symptoms)
+  File "D:\Scripts\IRS-proj\backend\diagnosis\core\nlp_chatbot.py", line 
+246, in perform_diagnosis
+    top_diseases = get_top_diseases(
+  File "D:\Scripts\IRS-proj\backend\diagnosis\core\nlp_chatbot.py", line 
+217, in get_top_diseases
+    if probabilities[idx] >= threshold:
+  File "D:\Apps\Anaconda3\envs\irs\lib\site-packages\scipy\sparse\_base.py", line 332, in __bool__
+    raise ValueError("The truth value of an array with more than one "   
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all().

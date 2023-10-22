@@ -1,4 +1,5 @@
 <template>
+  <VSonner position="top-center"></VSonner>
   <v-layout class="rounded rounded-md">
     <v-app-bar color="secondary" elevation="4">
       <template v-slot:prepend>
@@ -8,6 +9,14 @@
       <v-app-bar-title>Health ChatBot</v-app-bar-title>
 
       <template v-slot:append>
+        <v-btn
+          icon="mdi-bell"
+          size="small"
+          class="mx-5"
+          variant="outlined"
+          :to="{ name: 'configTelegram' }"
+        >
+        </v-btn>
         <v-btn
           prepend-icon="mdi-account-edit"
           variant="outlined"
@@ -23,11 +32,10 @@
         <v-list-item
           link
           size="large"
-          v-for="item in historyList"
-          :key="item.title"
-          :title="'Chat title'"
-          :subtitle="'Saved time'"
-          :to="{ name: 'Chat', params: { cid: item.tstamp } }"
+          v-for="item,i in historyList"
+          :title="'My chat '+ i"
+          :subtitle="'Created at (UTC)' + item.time"
+          :to="{ name: 'Chat', params: { cid: item.cid } }"
         >
           <!-- <v-tooltip activator="parent"> TIME </v-tooltip> -->
         </v-list-item>
@@ -56,6 +64,7 @@
         @keyup.enter="sendInput"
         hide-details
         clearable
+        :disabled="disabled"
       ></v-text-field>
       <v-btn
         class="mr-10"
@@ -63,6 +72,7 @@
         size="large"
         color="primary"
         @click.stop="sendInput"
+        :disabled="disabled"
       ></v-btn>
     </v-app-bar>
 
@@ -71,46 +81,55 @@
       style="min-height: 300px"
     >
       <router-view v-slot="{ Component }">
-        <component ref="view" :is="Component"></component>
+        <component
+          ref="view"
+          :is="Component"
+          @disableSend="disableSend"
+          @enableSend="enableSend"
+          @updateHist="loadHistories"
+        ></component>
       </router-view>
     </v-main>
   </v-layout>
 </template>
 
 <script>
+import { hostname, axios } from "@/api.js";
+import { alertToast } from "@/util.js";
+
+import { VSonner } from "vuetify-sonner";
+
 export default {
+  components: {
+    VSonner,
+  },
+
   data: () => ({
     drawer: null,
     input: "",
     historyList: null,
+    disabled: false,
   }),
 
   methods: {
     // Call Methods of Chat view.
-    saveChat() {
-      this.$refs.view.saveChat();
-    },
-
     newChat() {
-      // this.$router.push({ name: "Chat", params: { cid: "new" } });
-      location.reload();
+      this.$router.replace({ name: "Chat", params: { cid: "new" } });
     },
 
     loadHistories() {
-      this.historyList = [
-        {
-          title: "Recent chat",
-          tstamp: 1695562257580,
-        },
-        {
-          title: "",
-          tstamp: 1695532257580,
-        },
-        {
-          title: "Older chat 3",
-          tstamp: 1694532257580,
-        },
-      ];
+      axios
+        .get("http://" + hostname + "/api/curr-user-hist")
+        .then((res) => {
+          if (res.data.status) {
+            this.historyList = res.data.data;
+          } else {
+            alertToast("Load chat history failed!", "error");
+          }
+        })
+        .catch((res) => {
+          alertToast("Connection failed!", "error");
+        });
     },
 
     sendInput() {
@@ -121,10 +140,18 @@ export default {
       this.$refs.view.sendMsg(this.input);
       this.input = "";
     },
+
+    disableSend() {
+      this.disabled = true;
+    },
+
+    enableSend() {
+      this.disabled = false;
+    },
   },
 
-  mounted() {
-    this.loadHistories();
-  },
+  // mounted() {
+  //   this.loadHistories();
+  // },
 };
 </script>
