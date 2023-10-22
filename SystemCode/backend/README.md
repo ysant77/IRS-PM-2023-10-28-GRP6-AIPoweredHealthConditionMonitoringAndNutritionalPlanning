@@ -1,37 +1,22 @@
-# Backend
+# Note:
+1. SQLite must be installed
+2. Python must be installed (preferably using anaconda)
 
- Note: 
- 1) SQLite must be installed.
- 2) Anaconda should be installed.
+## Installation of backend:
 
-Create a new virtual environment:
-ENVNAME: your environment name
-[] is optional
-```
-conda create --name {ENVNAME} [--clone base]
-activate {ENVNAME}
-```
-
-Install the requirements as follows: 
-```
-pip install -r requirements.txt
-```
-Install the spacy model as: 
-```
-python -m spacy download en_core_web_md
-```
-Then do the migrations as follows: 
-(Note: You may not have to do this step before starting the server. As long as the .sqlite3 file is intact.)
-
- ```
- python manage.py makemigrations
- python manage.py migrate
- ```
-
-Finally run the application as follows:
- (Make sure you're in the directory where manage.py is present)
+1. (Optional) Create a new virtual environment using the command: ```conda create ENVNAME python=PYTHON-VERSION```, here ENVNAME is your environment name and PYTHON-VERSION is the desired python version (for ex: ```conda create myenv python=3.8```).
+2. To optionally clone an existing environment use the command: ```conda create ENVNAME python=PYTHON-VERSION –clone EXISTING```.
+3. Activate the virtual environment as: ```conda activate ENVNAME```
+4. In the backend directory, install all the required packages using the command: ```pip install -r requirements.txt```
+5. Install the spacy language model using the command: ```python -m spacy en_core_web_md```
+6. Run the following commands to do the database migrations:
+  ```
+python manage.py makemigrations
+python manage.py migrate
 
 ```
-python manage.py runserver
-```
-(or run "daphne ai_health_monitoring.asgi:application")
+7. Create a superuser using the command: ```python manage.py createsuperuser``` and follow the prompts ahead.
+8. Setup the Google Oauth locally as follows:
+    1. Go to the URL: https://console.cloud.google.com/apis/ and create a new project.
+    2. Under the APIs and Services tab click on Credentials:
+
