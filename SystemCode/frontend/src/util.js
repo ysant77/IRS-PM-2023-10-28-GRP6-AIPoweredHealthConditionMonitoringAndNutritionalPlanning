@@ -1,5 +1,10 @@
 import { toast } from "vuetify-sonner";
 
+// export function scrollDown() {
+//   var el = document.getElementsByClassName("chat-line");
+//   el[el.length - 1].scrollIntoView();
+// };
+
 export function alertToast(msg, color){
     toast(msg, {
     cardProps: {

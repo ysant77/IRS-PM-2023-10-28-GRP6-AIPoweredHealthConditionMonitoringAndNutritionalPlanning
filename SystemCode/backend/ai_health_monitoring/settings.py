@@ -168,11 +168,11 @@ SOCIALACCOUNT_ADAPTER = 'diagnosis.adapters.CustomSocialAccountAdapter'
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Singapore"
 
 USE_I18N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

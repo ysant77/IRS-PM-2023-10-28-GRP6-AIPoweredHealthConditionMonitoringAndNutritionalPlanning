@@ -1,7 +1,7 @@
 <template>
   <VSonner position="top-center"></VSonner>
   <v-container id="chat-content">
-    <div v-for="(msg, i) in msgList" :key="i">
+    <div v-for="msg in msgList" ref="scrollRefs">
       <div
         class="chat-line pa-2 d-flex align-center"
         :class="msg.sender == 'bot' ? 'justify-start' : 'justify-end'"
@@ -66,7 +66,7 @@ export default {
           return;
         }
         if(res.status){
-          this.initConnection();
+          this.initConnection(true);
         }
       };
       checkSocket.onerror = (res)=>{
@@ -74,12 +74,17 @@ export default {
       }
     },
 
-    initConnection() {
+    initConnection(is_new=false) {
       this.socket = new WebSocket(
         "ws://" + hostname + "/ws/chat/" + this.session_id + "/"
       );
+      if (is_new){
+        this.socket.onopen = (event) => {
+          this.$emit("updateHist");
+        }
+      }
       this.socket.onmessage = (event) => {
-        this.$emit("enableSend");
+        this.$emit("enableSend"); // enable user send msg
         this.disabled = false;
         let data = JSON.parse(event.data);
         if (data.next) {
@@ -92,9 +97,6 @@ export default {
       this.socket.onerror = (event) => {
         alertToast('Connection to chatbot failed!','error')
       };
-      this.socket.onclose = (event) => {
-        alertToast('Connection to chatbot closed.','warning')
-      };
     },
 
     createMsg(msg = undefined, sender) {
@@ -103,17 +105,14 @@ export default {
       }
       msg.sender = sender;
       this.msgList.push(msg);
-      setTimeout('this.scrollDown()',300);
-    },
-
-    scrollDown() {
-      var el = document.getElementsByClassName("chat-line");
-      el[el.length - 1].scrollIntoView();
+      this.$nextTick(()=>{
+        this.$refs.scrollRefs[this.$refs.scrollRefs.length-1].scrollIntoView();
+      })
     },
 
     sendMsg(text) {
       this.createMsg(text, "user");
-      this.$emit('disableSend');
+      this.$emit('disableSend'); // let user not able to send msg until responded
       this.disabled = true;
       this.socket.send(
         JSON.stringify({
@@ -125,11 +124,12 @@ export default {
     loadChat(cid) {
       this.msgList = []
       if (cid === "new") {
+        /* =================test code====================*/
         // this.msgList = testdata;
+        /* =================test code====================*/
         return;
       } else {
         // send http req for query in message saved
-        // then push into this.msglist
         axios.post("http://"+hostname+"/api/get-chat-msgs", {'cid':cid})
         .then((res)=>{
           if(res.data.status){
@@ -161,26 +161,31 @@ export default {
     this.loadChat(to.params.cid);
     if (to.params.cid === "new") {
       this.generateSessionId()
-    }else{
-        this.session_id = to.params.cid;
+      this.$router.replace({ name: "Chat", params: { cid: this.session_id }})
+      this.initConnection(true);
+      return;
     }
+    this.session_id = to.params.cid;
     this.initConnection();
-    this.$emit("updateHist");
   },
 
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      // if (to.params.cid !== "new") {
+      /* =================test code====================*/
+      // if (to.params.cid === "new") {
       //   vm.loadChat(to.params.cid);
+      //   return;
       // }
+      /* =================test code====================*/
       vm.loadChat(to.params.cid);
       if (to.params.cid === 'new'){
         vm.generateSessionId();
+        vm.$router.replace({ name: "Chat", params: { cid: vm.session_id }})
+        return;
       }else{
         vm.session_id = to.params.cid;
       }
       vm.checkLoginInfo();
-      vm.$emit("updateHist");
     });
   },
 };

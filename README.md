@@ -23,8 +23,10 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 | Yatharth Mahesh Sant | A0286001R | Completed the code for NLP chatbot, multi label classification and the backend for disease diagnosis| e1221813@nus.edu |
 | Kristofer Roos | A0285949A | xxxxxxxxxx yyyyyyyyyy zzzzzzzzzz| e1221761@u.nus.edu |
 | Chua Kian Yong Kenny | A0056377W | xxxxxxxxxx yyyyyyyyyy zzzzzzzzzz| e1216683@u.nus.edu |
-| Zhang Yusen | A0285839H | xxxxxxxxxx yyyyyyyyyy zzzzzzzzzz| e1221651@u.nus.edu |
-| Hao Zhenmao | A0285960R | xxxxxxxxxx yyyyyyyyyy zzzzzzzzzz| e1221772@u.nus.edu |
+| Zhang Yusen | A0285839H | Designed and implemented web frontend with user interface. Completed the backend for meal planner and front-back integration. | e1221651@u.nus.edu |
+| Hao Zhenmao | A0285960R | Completed the Telegram notification fearture. Overall structural designing and testing of the system code. | e1221772@u.nus.edu |
+
+
 
 ---
 

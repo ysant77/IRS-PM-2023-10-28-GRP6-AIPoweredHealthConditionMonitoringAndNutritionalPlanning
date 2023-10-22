@@ -16,15 +16,18 @@ from .databaseutil import *
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        await self.accept()
-
         self.user = await get_user(uid=self.scope['user'].id)
         self.user_notify, _ = await get_or_create_user_notify(user=self.user)
         self.session_id = self.scope['url_route']['kwargs']['session_id']
         self.session, created = await get_or_create_session(self.session_id, self.user.uid) #ChatSession.objects.get_or_create(id=self.session_id)
+        
+        await self.accept()
+        
         if created:
-            await self.send(json_res(text=f"Hello {self.user.name}! What do you want to do?",
-                                            entries=['Meal planning','Symptom diagnosis']))
+            bot_response = json_res(text=f"Hello {self.user.name}! What do you want to do?",
+                                            entries=['Meal planning','Symptom diagnosis'])
+            await create_chat_message(self.session, False, bot_response)
+            await self.send(bot_response)
 
     async def disconnect(self, close_code):
         pass

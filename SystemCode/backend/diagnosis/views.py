@@ -89,7 +89,7 @@ def curr_user_hist(request):
     # these better be moved to frontend in production
     data = []
     for session in sessions:
-        data.append({'time':session['fields']['created_at'][:-8].replace('T',' '), 'cid':session['pk']})
+        data.append({'time':session['fields']['created_at'][:-7].replace('T',' '), 'cid':session['pk']})
     return JsonResponse({'status':True, 'data':data})
 
 

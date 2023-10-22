@@ -34,7 +34,7 @@
           size="large"
           v-for="item,i in historyList"
           :title="'My chat '+ i"
-          :subtitle="'Created at (UTC)' + item.time"
+          :subtitle="'Created at ' + item.time"
           :to="{ name: 'Chat', params: { cid: item.cid } }"
         >
           <!-- <v-tooltip activator="parent"> TIME </v-tooltip> -->
@@ -114,7 +114,7 @@ export default {
   methods: {
     // Call Methods of Chat view.
     newChat() {
-      this.$router.replace({ name: "Chat", params: { cid: "new" } });
+      this.$router.push({ name: "Chat", params: { cid: "new" } });
     },
 
     loadHistories() {
@@ -130,6 +130,7 @@ export default {
         .catch((res) => {
           alertToast("Connection failed!", "error");
         });
+        console.log('Updated hist')
     },
 
     sendInput() {
@@ -150,8 +151,8 @@ export default {
     },
   },
 
-  // mounted() {
-  //   this.loadHistories();
-  // },
+  mounted() {
+    this.loadHistories();
+  },
 };
 </script>
