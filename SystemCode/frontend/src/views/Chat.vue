@@ -55,9 +55,9 @@ export default {
       this.session_id = Date.now() + Math.floor(Math.random() * 1000);
     },
 
-    checkLoginInfo() {
-      let checkSocket = new WebSocket("ws://" + hostname + "/ws/check-login-info/");
-      checkSocket.onmessage = (event)=>{
+    checkLoginInfo(to=null, from=null) {
+      this.checkSocket = new WebSocket("ws://" + hostname + "/ws/check-login-info/");
+      this.checkSocket.onmessage = (event)=>{
         let res = JSON.parse(event.data);
         if(res.redirect){
           setTimeout(() => {
@@ -66,23 +66,23 @@ export default {
           return;
         }
         if(res.status){
-          this.initConnection(true);
+          this.switchRoute(to,from);
         }
       };
-      checkSocket.onerror = (res)=>{
+      this.checkSocket.onerror = (res)=>{
         alertToast('Connection failed!','error');
-      }
+      };
     },
 
-    initConnection(is_new=false) {
+    initConnection() {
       this.socket = new WebSocket(
         "ws://" + hostname + "/ws/chat/" + this.session_id + "/"
       );
-      if (is_new){
-        this.socket.onopen = (event) => {
-          this.$emit("updateHist");
-        }
+
+      this.socket.onopen = (event) => {
+        this.$emit("updateHist");
       }
+
       this.socket.onmessage = (event) => {
         this.$emit("enableSend"); // enable user send msg
         this.disabled = false;
@@ -94,6 +94,7 @@ export default {
         }
         this.createMsg(data, "bot");
       };
+
       this.socket.onerror = (event) => {
         alertToast('Connection to chatbot failed!','error')
       };
@@ -155,18 +156,22 @@ export default {
         })
       }
     },
+
+    switchRoute(to=null, from=null) {
+      this.loadChat(to.params.cid);
+      if (to.params.cid === "new") {
+        this.generateSessionId()
+        this.$router.replace({ name: "Chat", params: { cid: this.session_id }})
+        return;
+      }
+      this.session_id = to.params.cid;
+      this.initConnection();
+    },
   },
 
   beforeRouteUpdate(to, from) {
-    this.loadChat(to.params.cid);
-    if (to.params.cid === "new") {
-      this.generateSessionId()
-      this.$router.replace({ name: "Chat", params: { cid: this.session_id }})
-      this.initConnection(true);
-      return;
-    }
-    this.session_id = to.params.cid;
-    this.initConnection();
+    // console.log('route update! to ' +to.params.cid+' from '+from.params.cid)
+    this.switchRoute(to, from);
   },
 
   beforeRouteEnter(to, from, next) {
@@ -177,15 +182,8 @@ export default {
       //   return;
       // }
       /* =================test code====================*/
-      vm.loadChat(to.params.cid);
-      if (to.params.cid === 'new'){
-        vm.generateSessionId();
-        vm.$router.replace({ name: "Chat", params: { cid: vm.session_id }})
-        return;
-      }else{
-        vm.session_id = to.params.cid;
-      }
-      vm.checkLoginInfo();
+
+      vm.checkLoginInfo(to, from);
     });
   },
 };

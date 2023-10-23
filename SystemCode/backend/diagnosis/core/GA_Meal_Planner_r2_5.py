@@ -38,14 +38,11 @@ def filter_data(is_vegan=False, is_halal=False, no_beef=False, low_fat=False,
     if high_fiber:
         food_data = food_data[food_data['High_fiber'] == 1]
         
-        
-        
     # Create breakfast dataframe
     breakfast_df = food_data[food_data['Meal_Type'] == 'breakfast'].copy()
     # Create mains dataframe
     mains_df = food_data[food_data['Meal_Type'] == 'main'].copy()
 
-    
     breakfast_df.drop(columns=['Meal_Type'], inplace=True)
     mains_df.drop(columns=['Meal_Type'], inplace=True)
     drinks_df.drop(columns=['Meal_Type'], inplace=True)
@@ -60,7 +57,7 @@ def filter_data(is_vegan=False, is_halal=False, no_beef=False, low_fat=False,
 
 
 def calculate_fitness(meal_plan, calorie_goals):
-    total_calories = 0
+    # total_calories = 0
     total_calories_breakfast = 0
     total_calories_lunch = 0
     total_calories_dinner = 0
@@ -68,9 +65,9 @@ def calculate_fitness(meal_plan, calorie_goals):
     calorie_diff_BF = 0
     calorie_diff_L = 0
     calorie_diff_D = 0
-    total_protein = 0
-    total_fat = 0
-    total_carbohydrate = 0
+    # total_protein = 0
+    # total_fat = 0
+    # total_carbohydrate = 0
     meal_fitness_scores = {}  # Store fitness scores for each meal
     fitness = 0
     mains_BF_ratio = mains_L_ratio = mains_D_ratio = mains_ratio_penalty = 0
@@ -83,7 +80,7 @@ def calculate_fitness(meal_plan, calorie_goals):
         elif "dinner" in meal:
             total_calories_dinner += food_or_drink["Energy_(kcal)"]
 
-    total_calories = total_calories_breakfast + total_calories_lunch + total_calories_dinner
+    # total_calories = total_calories_breakfast + total_calories_lunch + total_calories_dinner
     # total_protein += food_or_drink["Protein"]
     # total_fat += food_or_drink["Fat"]
     # total_carbohydrate += food_or_drink["Carbohydrate"]
@@ -119,7 +116,7 @@ def calculate_fitness(meal_plan, calorie_goals):
     return fitness, meal_fitness_scores
 
 
-def create_meal_plan(breakfast_data_list, mains_data_list, drinks_data_list, fruits_data_list):
+def create_meal_plan(breakfast_data_list, mains_data_list, drinks_data_list, fruits_data_list) -> dict:
     meal_plan = {}
 
     # Select a random breakfast item
@@ -156,10 +153,10 @@ def create_meal_plan(breakfast_data_list, mains_data_list, drinks_data_list, fru
 def run_genetic_algorithm(population_size, num_generations, mutation_rate, breakfast_data_list, mains_data_list, 
                           drinks_data_list, fruits_data_list, calorie_goals):
     population = []
-    generation_fitness_Scores = []
     average_fitness_scores = []  # Store the average fitness scores
     best_fitness_scores = []  # Store the best fitness scores
 
+    # init population, individual is a day's meal plan, and gene is a meal.
     for _ in range(population_size):
         meal_plan = create_meal_plan(breakfast_data_list, mains_data_list, drinks_data_list, fruits_data_list)
         population.append(meal_plan)
@@ -169,17 +166,17 @@ def run_genetic_algorithm(population_size, num_generations, mutation_rate, break
 
         # Select the top-performing meal plans for breeding
         top_performers = population[:20]
-        new_population = []
-
+        
         # Track the best fitness score for this generation
-        best_fitness = calculate_fitness(top_performers[0], calorie_goals)[0]
+        best_fitness, _ = calculate_fitness(top_performers[0], calorie_goals)
         best_fitness_scores.append(best_fitness)
 
+        new_population = []
         # Create new meal plans through crossover and mutation
         while len(new_population) < population_size:
             parent1, parent2 = random.sample(top_performers, 2)
             child = {}
-            for meal in calorie_goals.keys():
+            for meal in calorie_goals.keys(): # breakfast, lunch, dinner
                 crossover_point = random.random()
                 if crossover_point < 0.5:
                     child[meal] = parent1[meal]
@@ -195,7 +192,6 @@ def run_genetic_algorithm(population_size, num_generations, mutation_rate, break
                     child[meal] = random.choice(breakfast_data_list) if 'breakfast' in meal else random.choice(mains_data_list)
                     child[meal + "_drink"] = random.choice(drinks_data_list)
                     child[meal + "_fruit"] = random.choice(fruits_data_list)
-
 
             new_population.append(child)
 
@@ -230,24 +226,35 @@ def get_food_filter_args(disease_name):
 
 
 def recovery_meal_planner(n, userinfo_kwargs, foodfilter_kwargs):
+    """
+        Meal planner that takes in user's diagnosed diseases in concern, adding more constraints.
+        Uses Genetic Algorithm to generate meal plans for n days.
+        ### params
+        - `n` number of days;
+        - `userinfo_kwargs` dict that contains user's body and food perference information;
+        - `foodfilter_kwargs` dict that contains food choosing constraints;
+    """
     is_vegan, no_beef, is_halal = userinfo_kwargs['is_vegan'], userinfo_kwargs['no_beef'], userinfo_kwargs['is_halal']
     tdee = BMR(**userinfo_kwargs)
+    
     population_size = 100
     num_generations = 100
     mutation_rate = 0.01
     calorie_goals = {"breakfast": 0.3*tdee, "lunch": 0.4*tdee, "dinner": 0.3*tdee}
-    breakfast_data_list, mains_data_list, drinks_data_list, fruits_data_list = filter_data(is_vegan, is_halal, 
-                                                                                           no_beef, **foodfilter_kwargs)
+    breakfast_data_list, mains_data_list, drinks_data_list, fruits_data_list \
+        = filter_data(is_vegan, is_halal, no_beef, **foodfilter_kwargs)
+        
     ret = []
     for day in range(1, n + 1):
-        best_meal_plan, best_fitness_scores, average_fitness_scores = run_genetic_algorithm(population_size=population_size,
-                                                                                            num_generations=num_generations,
-                                                                                            mutation_rate=mutation_rate,
-                                                                                            breakfast_data_list=breakfast_data_list,
-                                                                                            mains_data_list=mains_data_list,
-                                                                                            drinks_data_list=drinks_data_list,
-                                                                                            fruits_data_list=fruits_data_list,
-                                                                                            calorie_goals=calorie_goals)
+        best_meal_plan, best_fitness_scores, average_fitness_scores \
+            = run_genetic_algorithm(population_size=population_size,
+                                    num_generations=num_generations,
+                                    mutation_rate=mutation_rate,
+                                    breakfast_data_list=breakfast_data_list,
+                                    mains_data_list=mains_data_list,
+                                    drinks_data_list=drinks_data_list,
+                                    fruits_data_list=fruits_data_list,
+                                    calorie_goals=calorie_goals)
         day_plan = {'meals':[], 'total':None}
         sum_daily_calories = 0
 
@@ -266,10 +273,10 @@ def recovery_meal_planner(n, userinfo_kwargs, foodfilter_kwargs):
         day_plan['total'] = [round(sum_daily_calories), round(tdee)]
 
         ret.append(day_plan)
-            # if meal_names and meal_calories is not None:
-            #     print(f"{meal.capitalize()}:")
-            #     print(f"Items: {meal_names}")
-            #     print(f"Calories: {meal_calories}")
-            #     print()
+        # if meal_names and meal_calories is not None:
+        #     print(f"{meal.capitalize()}:")
+        #     print(f"Items: {meal_names}")
+        #     print(f"Calories: {meal_calories}")
+        #     print()
 
     return ret

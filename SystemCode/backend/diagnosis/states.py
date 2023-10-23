@@ -3,8 +3,7 @@ from channels.db import database_sync_to_async
 from django.forms.models import model_to_dict
 
 from .core.nlp_chatbot import extract_symptoms, get_relevant_symptoms, perform_diagnosis
-from .core.single_meal_planner import get_calorie_goal
-from .core.Food_Nutrition_checker import search_food_data
+from .core.single_meal_planner import get_calorie_goal, search_food_data
 from .core.GA_Meal_Planner_r2_5 import recovery_meal_planner, get_food_filter_args
 
 DEFALUT_MSG = 'Sorry, please try again.'
