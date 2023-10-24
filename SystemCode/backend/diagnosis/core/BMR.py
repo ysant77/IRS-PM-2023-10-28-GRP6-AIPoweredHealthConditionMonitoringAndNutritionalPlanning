@@ -1,5 +1,5 @@
 """
-    BMR: Basic Metabolic Rate
+    BMR: Basal Metabolic Rate
 """
 
 def calculate_bmr(sex, age, height_cm, weight_kg):
@@ -11,17 +11,6 @@ def calculate_bmr(sex, age, height_cm, weight_kg):
         raise ValueError("Invalid value for sex. Please enter 'male' or 'female'.")
     return bmr
 
-def get_user_height():
-    while True:
-        try:
-            height_cm = float(input("Enter your height in centimeters (100 to 250 cm): "))
-            if 100 <= height_cm <= 250:
-                return height_cm
-            else:
-                print("Please enter a valid height between 100 and 250 cm.")
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-
 def BMR(gender, age, height, weight, exec_lvl, weight_goal, **kwargs):
     sex = gender
     height_cm = float(height)
@@ -30,7 +19,7 @@ def BMR(gender, age, height, weight, exec_lvl, weight_goal, **kwargs):
 
     # Calculate BMR
     bmr = calculate_bmr(sex, age, height_cm, weight_kg)
-    print(f"Your Basal Metabolic Rate (BMR) is: {bmr} calories per day")
+    # print(f"Your Basal Metabolic Rate (BMR) is: {bmr} calories per day")
 
     # print("\nSelect your activity level:")
     # print("1. Little to no exercise")

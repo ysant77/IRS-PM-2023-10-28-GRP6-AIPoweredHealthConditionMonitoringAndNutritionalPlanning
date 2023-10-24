@@ -1,7 +1,7 @@
 <template>
   <VSonner position="top-center"></VSonner>
   <v-card
-    title="Edit your info and preferences:"
+    title="Welcome! Please tell me your info and preferences:"
     width="700"
     class="mx-auto my-9 px-5 pb-10 pt-2"
   >

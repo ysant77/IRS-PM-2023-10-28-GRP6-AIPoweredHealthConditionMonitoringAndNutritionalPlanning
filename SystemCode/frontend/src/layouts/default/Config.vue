@@ -30,9 +30,9 @@
           </v-alert>
         </template>
         <v-card-text class="text-body-1"
-          >You can send below verification message to our Telegram bot,<br />
+          >You can send below verification message to our Telegram bot<br />
           to receive notification from there. Please click the button to<br />
-          verify once you've sent the code message.
+          verify once you have sent the code message.
         </v-card-text>
         <v-card-text class="text-h6 pb-3">
           Send message: <span class="font-weight-bold">{{ veriCode }}</span
@@ -40,7 +40,7 @@
         /></v-card-text>
         <v-card-text class="text-h6 pt-0"
           >to
-          <a href="https://t.me/ai_health_monitor_bot"
+          <a href="https://t.me/ai_health_monitor_bot" target="_blank"
             >@ai_health_monitor_bot</a
           >
           in Telegram.</v-card-text
@@ -74,7 +74,7 @@ export default {
   },
 
   data: () => ({
-    verified: true,
+    verified: false,
     warning: false,
 
     loading: false,

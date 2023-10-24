@@ -97,7 +97,7 @@
         </v-tab>
       </v-tabs>
 
-      <v-card elevation="0">
+      <v-card variant="flat" class="mx-1" style="max-height: 500px; overflow: scroll; z-index: initial;">
         <v-window v-model="tab">
           <v-window-item class="px-2" v-for="(day, i) in msg.plan" :value="i">
             <v-card elevation="0" v-for="meal in day.meals">
