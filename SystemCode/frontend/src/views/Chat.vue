@@ -75,6 +75,10 @@ export default {
     },
 
     initConnection() {
+      if (this.socket){
+        this.socket.close()
+      }
+
       this.socket = new WebSocket(
         "ws://" + hostname + "/ws/chat/" + this.session_id + "/"
       );
