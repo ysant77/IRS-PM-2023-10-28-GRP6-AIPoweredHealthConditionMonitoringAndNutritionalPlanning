@@ -30,8 +30,8 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 ## SECTION 4 : VIDEO OF SYSTEM MODELLING & USE CASE DEMO
 
-![Business Plan](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/BizPlanVid.jpg){:width="100px" height="75px"}
-![Technical Explanation](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/TechPlanVid.jpg){:width="100px" height="75px"}
+[![Business Plan](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/BizPlanVid.jpg)](https://drive.google.com/file/d/1SZDIlICLT1guHcSdCIYmz9n_icRrbchH/view)
+[![Technical Explanation](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/TechPlanVid.jpg)](https://drive.google.com/file/d/1noppmSPJ1mouq8jVV5EiKn_A3u9RdJVl/view)
 
 ---
 
