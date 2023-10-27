@@ -10,5 +10,6 @@ websocket_urlpatterns = [
 http_urlpatterns = [
     re_path(r'^api/', get_asgi_application()),
     re_path(r'^accounts/', get_asgi_application()),
+    re_path(r'^admin', get_asgi_application()),
     path('chat/', get_asgi_application()),
 ]

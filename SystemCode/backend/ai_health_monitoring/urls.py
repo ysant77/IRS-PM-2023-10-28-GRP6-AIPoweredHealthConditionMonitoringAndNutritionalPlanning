@@ -19,7 +19,7 @@ from diagnosis import views
 from django.contrib import admin
 
 urlpatterns = [
-    path('', views.login_view, name='login_view'),  # Login page
+    # path('', views.login_view, name='login_view'),  # Login page
     path('chat/', views.chat_page, name='chat_page'),  # Chat page after successful login
     path('accounts/', include('allauth.urls')),   # For django-allauth
 
