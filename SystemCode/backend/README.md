@@ -4,11 +4,11 @@
 
 ## Installation of backend:
 
-1. (Optional) Create a new virtual environment using the command: ```conda create ENVNAME python=PYTHON-VERSION```, here ENVNAME is your environment name and PYTHON-VERSION is the desired python version (for ex: ```conda create myenv python=3.8```).
-2. To optionally clone an existing environment use the command: ```conda create ENVNAME python=PYTHON-VERSION –clone EXISTING```.
+1. (Optional) Create a new virtual environment using the command: ```conda create --name ENVNAME python=PYTHON-VERSION```, here ENVNAME is your environment name and PYTHON-VERSION is the desired python version (for ex: ```conda create --name myenv python=3.8```).
+2. To optionally clone an existing environment use the command: ```conda create --name ENVNAME python=PYTHON-VERSION –clone EXISTING```.
 3. Activate the virtual environment as: ```conda activate ENVNAME```
-4. In the backend directory, install all the required packages using the command: ```pip install -r requirements.txt```
-5. Install the spacy language model using the command: ```python -m spacy en_core_web_md```
+4. Change working directory to SystemCode/backend. In the backend directory, install all the required packages using the command: ```pip install -r requirements.txt```
+5. Install the spacy language model using the command: ```python -m spacy download en_core_web_md```
 6. Run the following commands to do the database migrations:
   ```
 python manage.py makemigrations
