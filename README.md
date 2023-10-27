@@ -16,7 +16,7 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 ## SECTION 3 : CREDITS / PROJECT CONTRIBUTION
 
-| Official Full Name  | Student ID (MTech Applicable)  | Work Items (Who Did What) | Email (Optional) |
+| Official Full Name  | Student ID (MTech Applicable)  | Work Items (Who Did What) | Email |
 | :------------ |:---------------:| :-----| :-----|
 | Yatharth Mahesh Sant | A0286001R | Completed the code for NLP chatbot, multi label classification and the backend for disease diagnosis| e1221813@nus.edu |
 | Kristofer Roos | A0285949A | Facilitated data integration and transformation for disease detection and meal planning; research, interviews, and data sourcing; risk analysis; developed unique selling/value propositions. | e1221761@u.nus.edu |
@@ -30,7 +30,8 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 ## SECTION 4 : VIDEO OF SYSTEM MODELLING & USE CASE DEMO
 
-[![Sudoku AI Solver](http://img.youtube.com/vi/-AiYLUjP6o8/0.jpg)](https://youtu.be/-AiYLUjP6o8 "Sudoku AI Solver")
+![Business Plan](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/BizPlanVid.jpg){:width="100px" height="75px"}
+![Technical Explanation](https://github.com/ysant77/AI-Driven-Personal-Health-Assistant-with-Decision-Support/blob/main/img/TechPlanVid.jpg){:width="100px" height="75px"}
 
 ---
 
@@ -47,7 +48,7 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 `Refer to project report at Github Folder: ProjectReport`
 
-**Recommended Sections for Project Report / Paper:**
+**Sections of Project Report:**
 - Executive Summary 
 - Business Case and Market Research
 - System Design and Model
