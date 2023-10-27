@@ -24,7 +24,7 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 | Kristofer Roos | A0285949A | xxxxxxxxxx yyyyyyyyyy zzzzzzzzzz| e1221761@u.nus.edu |
 | Chua Kian Yong Kenny | A0056377W | Data acquisition, data preprocessing, backend for meal planner | e1216683@u.nus.edu |
 | Zhang Yusen | A0285839H | Designed and implemented web frontend with user interface. Completed the backend for meal planner and front-back integration. | e1221651@u.nus.edu |
-| Hao Zhenmao | A0285960R | Completed the Telegram notification fearture. Overall structural designing and testing of the system code. | e1221772@u.nus.edu |
+| Hao Zhenmao | A0285960R | Completed the Telegram notification feature. Overall structural designing and testing of the system code. | e1221772@u.nus.edu |
 
 
 
