@@ -19,7 +19,7 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 | Official Full Name  | Student ID (MTech Applicable)  | Work Items (Who Did What) | Email (Optional) |
 | :------------ |:---------------:| :-----| :-----|
 | Yatharth Mahesh Sant | A0286001R | Completed the code for NLP chatbot, multi label classification and the backend for disease diagnosis| e1221813@nus.edu |
-| Kristofer Roos | A0285949A | Conducted comprehensive research, interviews, and data sourcing; developed unique selling and value propositions; facilitated data integration and transformation for disease detection and meal planning; and executed a holistic risk analysis for the solution's market launch. | e1221761@u.nus.edu |
+| Kristofer Roos | A0285949A | Facilitated data integration and transformation for disease detection and meal planning; research, interviews, and data sourcing; executed risk analysis; developed unique selling and value propositions. | e1221761@u.nus.edu |
 | Chua Kian Yong Kenny | A0056377W | Data acquisition, data preprocessing, backend for meal planner | e1216683@u.nus.edu |
 | Zhang Yusen | A0285839H | Designed and implemented web frontend with user interface. Completed the backend for meal planner and front-back integration. | e1221651@u.nus.edu |
 | Hao Zhenmao | A0285960R | Completed the Telegram notification feature. Overall structural designing and testing of the system code. | e1221772@u.nus.edu |
