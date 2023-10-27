@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 from django.apps import apps
+import statistics
 
 symptoms = apps.get_app_config("diagnosis").symptoms
 mlb = apps.get_app_config("diagnosis").mlb
@@ -124,13 +125,17 @@ def find_best_match(user_symptom, symptom_columns):
     best_match = None
     best_fuzzy_score = 0
     best_semantic_score = 0
+    fuzzy_scores = [fuzz.ratio(user_symptom, possible_symptom) for possible_symptom in symptom_columns]
+
+    # Set dynamic threshold using median of fuzzy scores
+    threshold = statistics.median(fuzzy_scores)
 
     #iterate over all symptoms
     for possible_symptom in symptom_columns:
         fuzzy_score = fuzz.ratio(user_symptom, possible_symptom)
 
         # Only proceed with approximate matches having this threshold. The threshold here is to be adjusted as per feedback from user
-        if fuzzy_score > 70: 
+        if fuzzy_score > threshold: 
             #remove the underscore for extracting multiple words
             semantic_similarity = calculate_semantic_similarity(
                 user_symptom.split("_"), possible_symptom.split("_")
