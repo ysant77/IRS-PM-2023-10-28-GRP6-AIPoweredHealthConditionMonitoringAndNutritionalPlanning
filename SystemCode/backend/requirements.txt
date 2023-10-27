@@ -9,3 +9,6 @@ whitenoise
 django-allauth
 django-cors-headers
 scikit-multilearn
+pandas
+numpy
+matplotlib
