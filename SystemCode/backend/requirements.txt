@@ -12,3 +12,6 @@ scikit-multilearn
 pandas
 numpy
 matplotlib
+joblib
+scikit-learn
+telegram
