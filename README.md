@@ -63,7 +63,7 @@ Thereby, we aim to create an AI-Powered Health Condition Monitoring and Nutritio
 
 ---
 
-### <<<<<<<<<<<<<<<<<<<< End of Template >>>>>>>>>>>>>>>>>>>>
+### <<<<<<<<<<<<<<<<<<<< End >>>>>>>>>>>>>>>>>>>>
 
 ---
 
