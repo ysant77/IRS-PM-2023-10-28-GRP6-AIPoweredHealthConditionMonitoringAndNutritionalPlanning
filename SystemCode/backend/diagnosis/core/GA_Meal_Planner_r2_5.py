@@ -98,11 +98,11 @@ def calculate_fitness(meal_plan, calorie_goals):
     mains_L_ratio = meal_plan['lunch']['Energy_(kcal)'] / total_calories_lunch
     mains_D_ratio = meal_plan['dinner']['Energy_(kcal)'] / total_calories_dinner
     if mains_BF_ratio < 0.5:
-        mains_ratio_penalty += 100
+        mains_ratio_penalty += 500
     if mains_L_ratio < 0.5:
-        mains_ratio_penalty += 100
+        mains_ratio_penalty += 500
     if mains_D_ratio < 0.5:
-        mains_ratio_penalty += 100
+        mains_ratio_penalty += 500
     if total_calories_breakfast > calorie_goals["breakfast"]:
         mains_ratio_penalty += 500
     if total_calories_lunch > calorie_goals["lunch"]:
