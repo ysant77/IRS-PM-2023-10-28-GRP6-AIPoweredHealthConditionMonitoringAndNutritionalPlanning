@@ -2,13 +2,13 @@
 
 0. Node.js is required. [Download here.](https://nodejs.org/en/download)
 
-   Check installation using:
+   Open Command Prompt (do not use anaconda shell). Check installation using:
 
 ```
 npm -v
 ```
 
-1. Under this directory, run the following command in console to install required node packages.
+1. Change directory to Systemcode/frontend. Under this directory, run the following command in console to install required node packages.
 
    A directory called `node_modules` should appear once the installation succeeded. (Size is around 90+ MiB)
 
