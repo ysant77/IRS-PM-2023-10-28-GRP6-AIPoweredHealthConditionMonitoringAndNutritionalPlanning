@@ -1,6 +1,7 @@
 # Note:
 1. SQLite must be installed
 2. Python must be installed (preferably using anaconda)
+3. Steps 7 to 8 and 12 to 14 are optional and should only be done if you want to provide your own Client ID and Client Secret for OAuth. Default Client ID and Client Secret are already given. If not already present in settings.py file then only follow these steps.
 
 ## Installation of backend:
 
